@@ -18,18 +18,20 @@
     <div class="StatBox__Content">
       <table class="StatBox__Table" v-if="visibleStats === 'artists'">
         <thead>
+            <th>Rank</th>
             <th>Artist</th>
-            <th>Genres</th>
-            <th>Popularity</th>
+            <th v-if="tableFilters.artists.showGenres">Genres</th>
+            <th v-if="tableFilters.artists.showPopularity">Popularity</th>
             <th>URL</th>
         </thead>
         <tbody>
-          <tr v-for="item in this.topArtists.data.items" :key="item.name">
+          <tr v-for="(item, index) in this.topArtists.data.items" :key='item.uri'>
+            <td>{{index+1}}</td>
             <td>{{item.name}}</td>
-            <td>
-              <span v-for="genre in item.genres" :key="genre">{{genre + " "}} </span>
+            <td v-if="tableFilters.artists.showGenres">
+              <span v-for="genre in item.genres" :key="item.uri + genre">{{genre + " "}} </span>
             </td>
-            <td>{{item.popularity}}</td>
+            <td v-if="tableFilters.artists.showPopularity">{{item.popularity}}</td>
             <td><a :href='item.uri'>LINK</a></td>
           </tr>
         </tbody>
@@ -37,16 +39,24 @@
 
       <table class="StatBox__Table" v-if="visibleStats === 'songs'">
         <thead>
+            <th>Rank</th>
             <th>Song</th>
             <th>Artist</th>
-            <th>Album</th>
+            <th v-if="tableFilters.songs.showAlbumTitle">Album</th>
+            <th v-if="tableFilters.songs.showReleaseDate">Release Date</th>
+            <th v-if="tableFilters.songs.showDuration">Duration</th>
+            <th v-if="tableFilters.songs.showPopularity">Popularity</th>
             <th>URL</th>
         </thead>
         <tbody>
-          <tr v-for="item in this.topSongs.data.items" :key="item.name">
+          <tr v-for="(item, index) in this.topSongs.data.items" :key="item.uri">
+            <td>{{index+1}}</td>
             <td>{{item.name}}</td>
             <td>{{item.artists[0].name}}</td>
-            <td>{{item.album.name}}</td>
+            <td v-if="tableFilters.songs.showAlbumTitle">{{item.album.name}}</td>
+            <td v-if="tableFilters.songs.showReleaseDate">{{item.album.release}}</td>
+            <td v-if="tableFilters.songs.showDuration">{{item.duration}}</td>
+            <td v-if="tableFilters.songs.showPopularity">{{item.popularty}}</td>
             <td><a :href='item.uri'>LINK</a></td>
           </tr>
         </tbody>
@@ -67,7 +77,7 @@ export default {
   computed: mapState([
     'topArtists',
     'topSongs',
-    'user',
+    'tableFilters',
   ]),
   data() {
     return {
@@ -75,13 +85,13 @@ export default {
     };
   },
   mounted() {
+    console.log('tableFilters from table component', this.tableFilters);
     if (!this.$store.getters.getTopArtists) {
-      this.$store.dispatch('setTopArtists').then(() => {
-        console.log(this.$store);
-      });
+      this.$store.dispatch({ type: 'setTopArtists' });
     }
+
     if (!this.$store.getters.getTopSongs) {
-      this.$store.dispatch('setTopSongs');
+      this.$store.dispatch({ type: 'setTopSongs' });
     }
   },
 };
@@ -133,8 +143,12 @@ export default {
           text-align: right;
 
           &:first-of-type{
-            text-align: left;
+            text-align: center;
             border-right: none;
+          }
+
+          &:nth-of-type(2){
+            text-align: left;
           }
 
           &:last-of-type{
@@ -153,6 +167,11 @@ export default {
         transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 
         &:first-of-type{
+          text-align: center;
+          border-right: none;
+        }
+
+        &:nth-of-type(2){
           text-align: left;
         }
 

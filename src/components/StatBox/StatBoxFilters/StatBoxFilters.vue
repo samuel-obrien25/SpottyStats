@@ -9,36 +9,65 @@
         <h4>Frequency Options</h4>
         <label>
           Timespan
-          <select id="TimespanSelect">
-            <option>1 Month</option>
-            <option>6 Months</option>
-            <option>Several Years</option>
+          <select id="TimespanSelect" v-model="timeSpanValue">
+            <option value=''>Default</option>
+            <option value='short_term'>1 Month</option>
+            <option value='medium_term'>6 Months</option>
+            <option value='long_term'>Several Years</option>
           </select>
         </label>
 
         <label>
           Display Options
-          <select id="NumResultsFilter">
-            <option>10</option>
-            <option>20</option>
-            <option>50</option>
+          <select id="NumResultsFilter" v-model="numResultsValue">
+            <option value=''>Default</option>
+            <option value='10'>10</option>
+            <option value='20'>20</option>
+            <option value='50'>50</option>
           </select>
         </label>
 
         <h4>Table Options</h4>
 
+        <h5>Top Artists</h5>
         <label>
           Show Genres
-          <input id="GenresFilter" type="checkbox"/>
+          <input id="GenresFilter" type="checkbox" v-model="filters.artists.showGenres"/>
         </label>
 
         <label>
           Show Popularity
-          <input id="PopularityFilter" type="checkbox"/>
+          <input id="PopularityFilter" type="checkbox" v-model="filters.artists.showPopularity"/>
+        </label>
+
+        <h5>Top Songs</h5>
+        <label>
+          Show Album Title
+          <input id="AlbumTitleFilter" type="checkbox" v-model="filters.songs.showAlbumTitle"/>
+        </label>
+
+        <label>
+          Show Release Date
+          <input type="checkbox" v-model="filters.songs.showReleaseDate"/>
+        </label>
+
+        <label>
+          Show Popularity
+          <input type="checkbox" v-model="filters.songs.showPopularity"/>
+        </label>
+
+        <label>
+          Show Song Duration
+          <input type="checkbox" v-model="filters.songs.showDuration"/>
         </label>
 
         <div class="StatBoxFilters__ActionsContainer">
-          <ActionButton type="Constructive">Update Table</ActionButton>
+          <ActionButton
+            type="Constructive"
+            v-on:click.native="updateTable"
+          >
+          Update Table
+          </ActionButton>
           <ActionButton type="Destructive">Reset Options</ActionButton>
         </div>
 
@@ -57,8 +86,54 @@ export default {
   },
   data() {
     return {
+      filters: {
+        artists: {
+          showGenres: null,
+          showPopularity: null,
+        },
+        songs: {
+          showAlbumTitle: null,
+          showDuration: null,
+          showPopularity: null,
+          showReleaseDate: null,
+        },
+      },
       showFilters: false,
+      numResultsValue: '',
+      timeSpanValue: '',
     };
+  },
+  mounted() {
+    this.filters = {
+      artists: {
+        showGenres: this.$store.getters.getTableFiltersArtists.showGenres,
+        showPopularity: this.$store.getters.getTableFiltersArtists.showPopularity,
+      },
+      songs: {
+        showAlbumTitle: this.$store.getters.getTableFiltersSongs.showAlbumTitle,
+        showDuration: this.$store.getters.getTableFiltersSongs.showDuration,
+        showPopularity: this.$store.getters.getTableFiltersSongs.showPopularity,
+        showReleaseDate: this.$store.getters.getTableFiltersSongs.showReleaseDate,
+      },
+    };
+  },
+  methods: {
+    updateTable() {
+      const tableFilters = this.filters;
+      this.$store.dispatch('setTableFilters', {
+        ...tableFilters,
+      });
+
+      this.$store.dispatch('setTopArtists', {
+        timeRange: this.timeSpanValue,
+        limit: this.numResultsValue,
+      });
+
+      this.$store.dispatch('setTopSongs', {
+        timeRange: this.timeSpanValue,
+        limit: this.numResultsValue,
+      });
+    },
   },
 };
 </script>
@@ -70,7 +145,7 @@ export default {
       padding: 10px;
       width: 90%;
 
-        h3, h4 {
+        h3, h4, h5 {
             text-align: left;
         }
 
@@ -97,6 +172,15 @@ export default {
             width: 100%;
           }
 
+        }
+
+        h5{
+          border-bottom: 2px dotted #159ed4;
+          font-weight: 700;
+          letter-spacing: 2px;
+          margin-bottom: 10px;
+          padding-bottom: 5px;
+          text-transform: uppercase;
         }
 
       &__List{

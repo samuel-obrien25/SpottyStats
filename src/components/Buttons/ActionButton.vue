@@ -20,6 +20,10 @@ export default {
     padding: 15px 20px;
     font-weight: 700;
 
+    :hover {
+      cursor: pointer;
+    }
+
     &--Constructive{
         background-color: #6dcac1;
         border: 3px solid rgba(0,0,0,.85);

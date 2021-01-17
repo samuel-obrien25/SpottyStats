@@ -8,6 +8,18 @@ const store = new Vuex.Store({
   state: {
     access_token: localStorage.getItem('access_token') || '',
     didSucceed: null,
+    tableFilters: {
+      artists: {
+        showGenres: 'checked',
+        showPopularity: 'checked',
+      },
+      songs: {
+        showAlbumTitle: 'checked',
+        showDuration: 'checked',
+        showPopularity: 'checked',
+        showReleaseDate: 'checked',
+      },
+    },
     topArtists: null,
     topSongs: null,
     user: null,
@@ -18,6 +30,10 @@ const store = new Vuex.Store({
     },
     mutateDidSucceed(state, payload) {
       state.didSucceed = payload;
+    },
+    mutateTableFilters(state, payload) {
+      state.tableFilters = payload;
+      console.log('newState', state.tableFilters);
     },
     mutateTopArtists(state, payload) {
       state.topArtists = payload;
@@ -30,8 +46,25 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    setTopSongs({ commit }) {
-      Vue.axios.get('https://api.spotify.com/v1/me/top/tracks', {
+    setTableFilters({ commit }, payload) {
+      console.log('payload', payload);
+      commit('mutateTableFilters', payload);
+    },
+    setTopSongs({ commit }, payload) {
+      const baseURL = 'https://api.spotify.com/v1/me/top/tracks?';
+      const timeRangeQueryParam = payload.timeRange ? `&time_range=${payload.timeRange.toString()}` : null;
+      const limitQueryParam = payload.limit ? `&limit=${payload.limit.toString()}` : null;
+      let reqURL = baseURL;
+
+      if (timeRangeQueryParam) {
+        reqURL += timeRangeQueryParam;
+      }
+
+      if (limitQueryParam) {
+        reqURL += limitQueryParam;
+      }
+
+      Vue.axios.get(reqURL, {
         headers: {
           Authorization: `Bearer ${this.state.access_token}`,
         },
@@ -39,8 +72,21 @@ const store = new Vuex.Store({
         commit('mutateTopSongs', response);
       });
     },
-    setTopArtists({ commit }) {
-      Vue.axios.get('https://api.spotify.com/v1/me/top/artists', {
+    setTopArtists({ commit }, payload) {
+      const baseURL = 'https://api.spotify.com/v1/me/top/artists?';
+      const timeRangeQueryParam = payload.timeRange ? `&time_range=${payload.timeRange.toString()}` : null;
+      const limitQueryParam = payload.limit ? `&limit=${payload.limit.toString()}` : null;
+      let reqURL = baseURL;
+
+      if (timeRangeQueryParam) {
+        reqURL += timeRangeQueryParam;
+      }
+
+      if (limitQueryParam) {
+        reqURL += limitQueryParam;
+      }
+
+      Vue.axios.get(reqURL, {
         headers: {
           Authorization: `Bearer ${this.state.access_token}`,
         },
@@ -65,6 +111,12 @@ const store = new Vuex.Store({
     },
     getDidSucceed(state) {
       return state.didSucceed;
+    },
+    getTableFiltersArtists(state) {
+      return state.tableFilters.artists;
+    },
+    getTableFiltersSongs(state) {
+      return state.tableFilters.songs;
     },
     getTopArtists(state) {
       return state.topArtists;
