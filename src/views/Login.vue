@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LogInOutButton from '../components/LogInOutButton.vue';
+import LogInOutButton from '../components/Buttons/LogInOutButton.vue';
 
 export default {
   name: 'Login',

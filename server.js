@@ -38,7 +38,7 @@ var generateRandomString = function(length) {
     res.cookie(stateKey, state);
   
     // your application requests authorization
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-read-email user-top-read';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -86,18 +86,6 @@ var generateRandomString = function(length) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
   
-          var options = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-  
-          // use the access token to access the Spotify Web API
-          request.get(options, function(error, response, body) {
-            console.log(body);
-          });
-  
-          // we can also pass the token to the browser to make requests from there
           res.redirect('http://localhost:8081/?' +
             querystring.stringify({
               access_token: access_token,
@@ -138,7 +126,18 @@ var generateRandomString = function(length) {
   });
 
   app.get('/logout', function(req, res) {
-    res.redirect('https://spotify.com/logout');
+    res.clearCookie(stateKey);
+    res.redirect('http://localhost:8081/home');
+  });
+
+  app.get('/top_artists', function(req, res) {
+
+    var access_token = req.query.refresh_token;
+    var options = {
+      url: 'https://api.spotify.com/v1/me',
+      headers: { 'Authorization': 'Bearer ' + access_token },
+      json: true
+    };
   });
   
   console.log('Listening on 8888');
