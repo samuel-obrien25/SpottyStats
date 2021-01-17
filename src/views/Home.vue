@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import 'vue-router';
 import DefaultPage from '../templates/DefaultPage.vue';
 
@@ -20,20 +19,15 @@ export default {
   methods: {
     logOut() {
       this.$store.commit('mutateUser', null);
+      this.$store.commit('mutateAccessToken', null);
+      this.$store.commit('mutateDidSucceed', null);
       this.$router.push({ name: 'Home' });
     },
   },
   created() {
-    if (this.$route.query) {
-      Vue.axios.get('https://api.spotify.com/v1/me', {
-        headers: {
-          Authorization: `Bearer ${this.$route.query.access_token}`,
-        },
-      }).then((response) => {
-        this.$store.commit('mutateUser', response.data);
-        console.log('Response from server: ');
-        console.log(this.$store.state.user);
-      }).then(() => {
+    if (this.$route.query && this.$route.query.access_token) {
+      this.$store.commit('mutateAccessToken', this.$route.query.access_token);
+      this.$store.dispatch('setUser').then(() => {
         this.$router.push('/dashboard');
       });
     }
