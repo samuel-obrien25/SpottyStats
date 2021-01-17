@@ -1,12 +1,14 @@
 <template>
     <div class="DashboardView">
-        <h2 class="DashboardView__Title">Welcome to SpottyStats, {{this.user.display_name}}!</h2>
+        <h2 class="DashboardView__Title">
+          Welcome to SpottyStats, {{this.user.display_name || null}}!
+        </h2>
         <StatBox/>
     </div>
 </template>
 
 <script>
-import StatBox from '../components/StatBox.vue';
+import StatBox from '../components/StatBox/StatBox.vue';
 
 export default {
   name: 'Dashboard',
@@ -30,13 +32,16 @@ export default {
 <style lang="scss">
 
 .DashboardView{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 250px calc(100% - 250px);
+    grid-template-rows: 50px calc(100% - 50px);
     height: 100%;
     width: 100%;
 
     &__Title{
-        margin: auto;
+      grid-column-start: 2;
+      grid-row-start: 1;
+      margin: auto;
     }
 }
 
