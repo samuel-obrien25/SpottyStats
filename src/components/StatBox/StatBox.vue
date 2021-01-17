@@ -86,41 +86,40 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import StatBoxFilters from "./StatBoxFilters/StatBoxFilters.vue";
+import { mapState } from 'vuex';
+import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
 
 export default {
-  name: "StatBox",
+  name: 'StatBox',
   components: {
     StatBoxFilters,
   },
-  computed: mapState(["topArtists", "topSongs", "tableFilters"]),
+  computed: mapState(['topArtists', 'topSongs', 'tableFilters']),
   data() {
     return {
-      visibleStats: "none",
+      visibleStats: 'none',
     };
   },
   methods: {
     formatMilliseconds(input) {
       const minutes = Math.floor(input / 60000);
       const seconds = ((input % 60000) / 1000).toFixed(0);
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     },
   },
   mounted() {
-    console.log(this.$store.state);
     if (!this.$store.getters.getTopArtists) {
-      this.$store.dispatch({ type: "setTopArtists" });
+      this.$store.dispatch({ type: 'setTopArtists' });
     }
 
     if (!this.$store.getters.getTopSongs) {
-      this.$store.dispatch({ type: "setTopSongs" });
+      this.$store.dispatch({ type: 'setTopSongs' });
     }
   },
 };
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 .StatBox {
   display: grid;
   grid-column-end: span 2;
