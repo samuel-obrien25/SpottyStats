@@ -7,8 +7,12 @@ assignees: ''
 
 ---
 
-# As a {}
+## As a
 
-# I want {}
+## I want
 
-# I currently have {}
+## I currently have
+
+## Acceptance Criteria
+
+- [ ]
