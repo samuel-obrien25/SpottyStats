@@ -1,17 +1,18 @@
 <template>
-  <div>
-    <table>
-        <tr>
-            <th>Stat1</th>
-            <th>Stat2</th>
-            <th>Stat3</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-        </tr>
-    </table>
+  <div class="StatBox">
+    <ul class="StatBox__ControlList">
+      <li class="StatBox__ControlItem">
+          <button class="StatBox__ControlItemButton">Top Songs</button>
+      </li>
+      <li class="StatBox__ControlItem">
+          <button class="StatBox__ControlItemButton">Top Artists</button>
+      </li>
+      <li class="StatBox__ControlItem">
+          <button class="StatBox__ControlItemButton">Top Playlists</button>
+      </li>
+    </ul>
+    <div class="StatBox__Content">
+    </div>
   </div>
 </template>
 
@@ -21,12 +22,16 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h2 {
-  margin: 40px 0 0;
-}
-a {
-  color: #42b983;
-}
+<style lang="scss" scoped>
+  .StatBox{
+    margin: auto;
+
+    &__ControlList{
+      display: inline-flex;
+      list-style: none;
+    }
+    &__ControlItem{
+      margin: 5px;
+    }
+  }
 </style>

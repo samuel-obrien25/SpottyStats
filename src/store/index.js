@@ -1,16 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import App from '../views/Home.vue';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    isAuthorized: false,
+    user: null,
   },
   mutations: {
-    togglAuth(state) {
-      state.isAuthorized = !state.isAuthorized;
+    mutateUser(state, payload) {
+      state.user = payload;
     },
+  },
+  getters: {
+    getUser(state) {
+      return state.user;
+    },
+  },
+  modules: {
+    App,
   },
 });
 

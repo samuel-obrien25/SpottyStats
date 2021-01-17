@@ -1,22 +1,28 @@
 <template>
-  <div class="hello">
-    <h1>SpottyStats Login</h1>
-    <p>Get the spotify usage stats you DESERVE</p>
-  </div>
+    <div class="LoginView">
+      <LogInOutButton v-bind:inOut="'in'"/>
+    </div>
 </template>
 
 <script>
+import LogInOutButton from '../components/LogInOutButton.vue';
+
 export default {
   name: 'Login',
+  components: {
+    LogInOutButton,
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h2 {
-  margin: 40px 0 0;
-}
-a {
-  color: #42b983;
-}
+<style lang="scss">
+  .LoginView{
+    margin: auto;
+
+    .LogInOut__Wrapper{
+      a{
+        padding: 20px 40px;
+      }
+    }
+  }
 </style>

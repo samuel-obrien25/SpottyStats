@@ -1,44 +1,53 @@
 <template>
-  <div id="app">
-    <header class="header">
-      <h1>SpottyStats</h1>
-      <p>Get the Spotify usage stats you DESERVE</p>
-    </header>
-    <div v-if="isAuthorized">
-      <Main/>
-    </div>
-    <div v-else>
-      <LoginButton />
-    </div>
-  </div>
+  <DefaultPage/>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import LoginButton from '../components/LoginButton.vue';
-import Main from '../components/Main.vue';
+import Vue from 'vue';
+import 'vue-router';
+import DefaultPage from '../templates/DefaultPage.vue';
 
 export default {
   name: 'App',
   components: {
-    Main,
-    LoginButton,
+    DefaultPage,
   },
-  computed: mapState(['isAuthorized']),
+  computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
+  },
+  methods: {
+    logOut() {
+      this.$store.commit('mutateUser', null);
+      this.$router.push({ name: 'Home' });
+    },
+  },
+  created() {
+    if (this.$route.query) {
+      Vue.axios.get('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: `Bearer ${this.$route.query.access_token}`,
+        },
+      }).then((response) => {
+        this.$store.commit('mutateUser', response.data);
+        console.log('Response from server: ');
+        console.log(this.$store.state.user);
+      }).then(() => {
+        this.$router.push('/dashboard');
+      });
+    }
+  },
+  mounted() {
+    if (this.user) {
+      this.$router.push('/dashboard');
+    } else {
+      this.$router.push('/login');
+    }
+  },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-.header{
-  margin-bottom: 50px;
-}
 </style>
