@@ -53,10 +53,18 @@
             <td>{{index+1}}</td>
             <td>{{item.name}}</td>
             <td>{{item.artists[0].name}}</td>
-            <td v-if="tableFilters.songs.showAlbumTitle">{{item.album.name}}</td>
-            <td v-if="tableFilters.songs.showReleaseDate">{{item.album.release}}</td>
-            <td v-if="tableFilters.songs.showDuration">{{item.duration}}</td>
-            <td v-if="tableFilters.songs.showPopularity">{{item.popularty}}</td>
+            <td v-if="tableFilters.songs.showAlbumTitle">
+              {{item.album.name}}
+            </td>
+            <td v-if="tableFilters.songs.showReleaseDate">
+              {{item.album.release_date}}
+            </td>
+            <td v-if="tableFilters.songs.showDuration">
+              {{formatMilliseconds(item.duration_ms)}}
+            </td>
+            <td v-if="tableFilters.songs.showPopularity">
+              {{item.popularity}}
+            </td>
             <td><a :href='item.uri'>LINK</a></td>
           </tr>
         </tbody>
@@ -84,8 +92,15 @@ export default {
       visibleStats: 'none',
     };
   },
+  methods: {
+    formatMilliseconds(input) {
+      const minutes = Math.floor(input / 60000);
+      const seconds = ((input % 60000) / 1000).toFixed(0);
+      return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}`;
+    },
+  },
   mounted() {
-    console.log('tableFilters from table component', this.tableFilters);
+    console.log(this.$store.state);
     if (!this.$store.getters.getTopArtists) {
       this.$store.dispatch({ type: 'setTopArtists' });
     }

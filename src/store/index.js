@@ -33,7 +33,6 @@ const store = new Vuex.Store({
     },
     mutateTableFilters(state, payload) {
       state.tableFilters = payload;
-      console.log('newState', state.tableFilters);
     },
     mutateTopArtists(state, payload) {
       state.topArtists = payload;
@@ -47,7 +46,6 @@ const store = new Vuex.Store({
   },
   actions: {
     setTableFilters({ commit }, payload) {
-      console.log('payload', payload);
       commit('mutateTableFilters', payload);
     },
     setTopSongs({ commit }, payload) {
