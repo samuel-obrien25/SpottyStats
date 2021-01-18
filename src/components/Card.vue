@@ -4,6 +4,7 @@
              v-bind:style="{ 'background-image': 'url(' + this.backgroundImage + ')' }"
         >
             <span class="Card__Rank">{{(rank + 1).toString()}}</span>
+            <a v-bind:href="item.uri" class="Card__CTA">Play on Spotify</a>
         </div>
 
         <div v-if="isArtistCard" class="Card__Body">
@@ -21,10 +22,7 @@
         </div>
 
         <div v-if="isSongCard" class="Card__Body">
-            <p>
-                <span>Song:</span>
-                {{item.name}}
-            </p>
+            <h3>{{item.name}}</h3>
             <p>
                 <span>Artist:</span>
                 {{item.artists[0].name}}
@@ -102,10 +100,9 @@ export default {
         overflow: hidden;
         padding: 10px;
         min-width: 200px;
-        width: 200px;
-
         scroll-snap-align: start;
         scroll-padding: 10px;
+        width: 200px;
 
         &__Rank{
             background-color:#159ed4;
@@ -132,6 +129,7 @@ export default {
             height: 200px;
             position: relative;
             width: 100%;
+            z-index: 2;
 
             h3{
                 bottom: 0;
@@ -143,6 +141,7 @@ export default {
         &__Body{
             height: 250px;
             overflow-x: auto;
+            position: relative;
             text-align: left;
 
             p{
@@ -150,6 +149,26 @@ export default {
                     font-weight:700;
                 }
             }
+        }
+
+        &__CTA{
+            background: none;
+            background-color: #6dcac1;
+            border: 2px solid rgba(0,0,0,.85);
+            border-radius: 20px;
+            box-shadow: -2px 2px 0px 1px #34867e;
+            color: rgba(0,0,0,.75);
+            display: block;
+            font-weight: 700;
+            margin: auto;
+            padding: 5px 10px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            text-decoration: none;
+            top: 155px;
+            width: 60%;
         }
   }
 }

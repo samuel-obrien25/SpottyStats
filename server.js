@@ -9,7 +9,6 @@ var client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
 var client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
 let baseURL;
 let redirect_uri;
-const node_env = process.env.NODE_ENV;
 
 (function () {
   if (process.env.NODE_ENV == 'DEVELOPMENT') {
