@@ -7,13 +7,26 @@ require('dotenv').config();
 
 var client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
 var client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
-var baseURL = process.env.NODE_ENV === 'DEVELOPMENT'
-  ? 'http://localhost:8080/'
-  : 'https://spottystats-dev.herokuapp.com/';
+let baseURL;
+let redirect_uri;
+const node_env = process.env.NODE_ENV;
 
-var redirect_uri = process.env.NODE_ENV === "DEVELOPMENT"
-  ? 'http://localhost:8888/api/callback/'
-  : 'https://spottystats-dev.herokuapp.com/api/callback/';
+(function () {
+  if (process.env.NODE_ENV == 'DEVELOPMENT') {
+    baseURL = 'http://localhost:8080/';
+    redirect_uri = 'http://localhost:8888/api/callback/';
+  }
+
+  if (process.env.NODE_ENV == 'STAGING') {
+    baseURL = 'https://spottystats-dev.herokuapp.com/';
+    redirect_uri = 'https://spottystats-dev.herokuapp.com/api/callback/';
+  }
+
+  if (process.env.NODE_ENV == 'PRODUCTION') {
+    baseURL = 'https://spottystats.herokuapp.com/';
+    redirect_uri = 'https://spottystats.herokuapp.com/api/callback/';
+  }
+})();
 
 /**
  * Generates a random string containing numbers and letters
