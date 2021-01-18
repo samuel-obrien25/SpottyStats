@@ -20,24 +20,34 @@
         </button>
       </li>
     </ul>
-    <div class="StatBox__Content">
-      <div class="CardStack" v-if="visibleStats === 'artists'">
-        <Card v-for="(item, index) in this.topArtists.data.items"
-              v-bind:key="index"
-              v-bind:isArtistCard="true"
-              v-bind:item="item"
-              v-bind:rank="index"
-        />
+      <div class="StatBox__Content">
+        <transition-group
+          class="CardStack"
+          name="list"
+          v-if="visibleStats === 'artists'"
+          tag="div"
+        >
+          <Card v-for="(item, index) in this.topArtists.data.items"
+                v-bind:key="item.id"
+                v-bind:isArtistCard="true"
+                v-bind:item="item"
+                v-bind:rank="index"
+          />
+        </transition-group>
+        <transition-group
+          class="CardStack"
+          name="list"
+          v-if="visibleStats === 'songs'"
+          tag="div"
+        >
+          <Card v-for="(item, index) in this.topSongs.data.items"
+                v-bind:key="item.id"
+                v-bind:isSongCard="true"
+                v-bind:item="item"
+                v-bind:rank="index"
+          />
+        </transition-group>
       </div>
-      <div class="CardStack" v-if="visibleStats === 'songs'">
-        <Card v-for="(item, index) in this.topSongs.data.items"
-              v-bind:key="index"
-              v-bind:isSongCard="true"
-              v-bind:item="item"
-              v-bind:rank="index"
-        />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -73,9 +83,18 @@ export default {
 <style lang='scss'>
 /* Portrait */
 @media only screen and (min-device-width: 375px){
+  .list-enter-active, .list-leave-active {
+    transition: all .5s;
+  }
+  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
   .StatBox{
     display: flex;
     flex-direction: column;
+    height: auto;
     position: relative;
 
     &__ControlList{
@@ -91,7 +110,8 @@ export default {
 
     &__Content{
       width: 100%;
-      overflow: scroll;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
       padding: 10px 0px
     }
 
