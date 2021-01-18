@@ -21,77 +21,35 @@
       </li>
     </ul>
     <div class="StatBox__Content">
-      <table class="StatBox__Table" v-if="visibleStats === 'artists'">
-        <thead>
-          <th>Rank</th>
-          <th>Artist</th>
-          <th v-if="tableFilters.artists.showGenres">Genres</th>
-          <th v-if="tableFilters.artists.showPopularity">Popularity</th>
-          <th>URL</th>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in this.topArtists.data.items"
-            :key="item.uri"
-          >
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td v-if="tableFilters.artists.showGenres">
-              <span v-for="genre in item.genres" :key="item.uri + genre"
-                >{{ genre + " " }}
-              </span>
-            </td>
-            <td v-if="tableFilters.artists.showPopularity">
-              {{ item.popularity }}
-            </td>
-            <td><a :href="item.uri">LINK</a></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="StatBox__Table" v-if="visibleStats === 'songs'">
-        <thead>
-          <th>Rank</th>
-          <th>Song</th>
-          <th>Artist</th>
-          <th v-if="tableFilters.songs.showAlbumTitle">Album</th>
-          <th v-if="tableFilters.songs.showReleaseDate">Release Date</th>
-          <th v-if="tableFilters.songs.showDuration">Duration</th>
-          <th v-if="tableFilters.songs.showPopularity">Popularity</th>
-          <th>URL</th>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in this.topSongs.data.items" :key="item.uri">
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.artists[0].name }}</td>
-            <td v-if="tableFilters.songs.showAlbumTitle">
-              {{ item.album.name }}
-            </td>
-            <td v-if="tableFilters.songs.showReleaseDate">
-              {{ item.album.release_date }}
-            </td>
-            <td v-if="tableFilters.songs.showDuration">
-              {{ formatMilliseconds(item.duration_ms) }}
-            </td>
-            <td v-if="tableFilters.songs.showPopularity">
-              {{ item.popularity }}
-            </td>
-            <td><a :href="item.uri">LINK</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="CardStack" v-if="visibleStats === 'artists'">
+        <Card v-for="(item, index) in this.topArtists.data.items"
+              v-bind:key="index"
+              v-bind:isArtistCard="true"
+              v-bind:item="item"
+              v-bind:rank="index"
+        />
+      </div>
+      <div class="CardStack" v-if="visibleStats === 'songs'">
+        <Card v-for="(item, index) in this.topSongs.data.items"
+              v-bind:key="index"
+              v-bind:isSongCard="true"
+              v-bind:item="item"
+              v-bind:rank="index"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import Card from '../Card.vue';
 import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
 
 export default {
   name: 'StatBox',
   components: {
+    Card,
     StatBoxFilters,
   },
   computed: mapState(['topArtists', 'topSongs', 'tableFilters']),
@@ -99,13 +57,6 @@ export default {
     return {
       visibleStats: 'none',
     };
-  },
-  methods: {
-    formatMilliseconds(input) {
-      const minutes = Math.floor(input / 60000);
-      const seconds = ((input % 60000) / 1000).toFixed(0);
-      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    },
   },
   mounted() {
     if (!this.$store.getters.getTopArtists) {
@@ -144,64 +95,14 @@ export default {
       padding: 10px 0px
     }
 
-    &__Table {
-      background-color: rgba(215, 238, 247, 0.25);
-      border-spacing: 0px;
-
-      thead {
-        th {
-          background-color: #fdb1be;
-          border: 2px solid rgba(0, 0, 0, 0.85);
-          border-right: none;
-          border-top-left-radius: 7.5px;
-          border-top-right-radius: 7.5px;
-          padding: 5px 2px;
-          text-align: right;
-
-          &:first-of-type {
-            text-align: center;
-            border-right: none;
-          }
-
-          &:nth-of-type(2) {
-            text-align: left;
-          }
-
-          &:last-of-type {
-            border-right: 2px solid black;
-          }
-        }
-      }
-
-      td {
-        border: 2px solid rgba(0, 0, 0, 0.85);
-        border-right: none;
-        border-top: none;
-        max-width: 100px;
-        padding: 8px;
-        text-align: right;
-        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-
-        &:first-of-type {
-          text-align: center;
-          border-right: none;
-        }
-
-        &:nth-of-type(2) {
-          text-align: left;
-        }
-
-        &:last-child {
-          border-right: 2px solid black;
-        }
-      }
-
-      tr {
-        &:hover {
-          color: rgba(0, 0, 0, 0.9);
-          background-color: rgba(21, 158, 212, 0.5);
-        }
-      }
+    .CardStack{
+      display: flex;
+      flex-direction: row;
+      align-items:flex-start;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: scroll;
+      scroll-snap-type: x proximity;
     }
   }
 }
@@ -237,67 +138,8 @@ export default {
       margin: 5px;
     }
 
-    &__Table {
-      background-color: rgba(215, 238, 247, 0.25);
-      border: 10px solid rgba(0, 0, 0, 0.8);
-      border-spacing: 0px;
-      border-radius: 10px;
-      padding: 10px;
-
-      thead {
-        th {
-          background-color: #fdb1be;
-          border: 2px solid rgba(0, 0, 0, 0.85);
-          border-right: none;
-          border-top-left-radius: 7.5px;
-          border-top-right-radius: 7.5px;
-          padding: 10px;
-          text-align: right;
-
-          &:first-of-type {
-            text-align: center;
-            border-right: none;
-          }
-
-          &:nth-of-type(2) {
-            text-align: left;
-          }
-
-          &:last-of-type {
-            border-right: 2px solid black;
-          }
-        }
-      }
-
-      td {
-        border: 2px solid rgba(0, 0, 0, 0.85);
-        border-right: none;
-        border-top: none;
-        max-width: 400px;
-        padding: 10px;
-        text-align: right;
-        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-
-        &:first-of-type {
-          text-align: center;
-          border-right: none;
-        }
-
-        &:nth-of-type(2) {
-          text-align: left;
-        }
-
-        &:last-child {
-          border-right: 2px solid black;
-        }
-      }
-
-      tr {
-        &:hover {
-          color: rgba(0, 0, 0, 0.9);
-          background-color: rgba(21, 158, 212, 0.5);
-        }
-      }
+    .CardStack{
+      flex-wrap: wrap;
     }
 
   }

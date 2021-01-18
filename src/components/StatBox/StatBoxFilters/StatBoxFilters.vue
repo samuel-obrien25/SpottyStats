@@ -27,7 +27,7 @@
           </select>
         </label>
 
-        <h4>Table Options</h4>
+        <h4>Stack Options</h4>
 
         <h5>Top Artists</h5>
         <label>
@@ -64,9 +64,9 @@
         <div class="StatBoxFilters__ActionsContainer">
           <ActionButton
             type="Constructive"
-            v-on:click.native="updateTable"
+            v-on:click.native="updateStack"
           >
-          Update Table
+          Update Stack
           </ActionButton>
           <ActionButton type="Destructive">Reset Options</ActionButton>
         </div>
@@ -118,10 +118,10 @@ export default {
     };
   },
   methods: {
-    updateTable() {
-      const tableFilters = this.filters;
+    updateStack() {
+      const stackFilters = this.filters;
       this.$store.dispatch('setTableFilters', {
-        ...tableFilters,
+        ...stackFilters,
       });
 
       this.$store.dispatch('setTopArtists', {
