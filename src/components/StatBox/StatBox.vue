@@ -19,6 +19,20 @@
           Top Artists
         </button>
       </li>
+
+      <li class="StatBox__ControlItem">
+        <button
+          class="StatBox__ControlItemButton"
+          v-on:click="showPlaylistDialog = !showPlaylistDialog"
+        >
+          Make Playlist
+        </button>
+        <div v-if="showPlaylistDialog">
+          <input v-model="playlistTitle" placeholder="Playlist Name">
+          <button v-on:click="createPlaylist">Create</button>
+        </div>
+      </li>
+
     </ul>
       <div class="StatBox__Content">
         <transition-group
@@ -52,6 +66,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState } from 'vuex';
 import Card from '../Card.vue';
 import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
@@ -65,8 +80,30 @@ export default {
   computed: mapState(['topArtists', 'topSongs', 'tableFilters']),
   data() {
     return {
+      showPlaylistDialog: false,
       visibleStats: 'none',
     };
+  },
+  model: {
+    playlistTitle: '',
+  },
+  methods: {
+    createPlaylist() {
+      const userID = this.$store.getters.getUser.id;
+      const baseURL = `https://api.spotify.com/v1/users/${userID}/playlists`;
+      const token = this.$store.getters.getAccessToken;
+      console.log(baseURL);
+      Vue.axios.post(baseURL, {
+        data: {
+          name: this.playlistTitle,
+          description: 'New playlist description',
+          public: false,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
   },
   mounted() {
     if (!this.$store.getters.getTopArtists) {
@@ -95,7 +132,7 @@ export default {
   .list-enter-active, .list-leave-active {
     transition: all .5s;
   }
-  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  .list-enter, .list-leave-to {
     opacity: 0;
     transform: translateY(30px);
   }
