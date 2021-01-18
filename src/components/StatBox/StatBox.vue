@@ -109,9 +109,8 @@ export default {
     }
 
     &__Content{
+      height: auto;
       width: 100%;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
       padding: 10px 0px
     }
 
@@ -119,6 +118,8 @@ export default {
       display: flex;
       flex-direction: row;
       align-items:flex-start;
+      height: auto;
+      position: relative;
       width: 100%;
       overflow-y: auto;
       overflow-x: scroll;
