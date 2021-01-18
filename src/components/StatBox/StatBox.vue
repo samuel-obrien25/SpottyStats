@@ -120,48 +120,67 @@ export default {
 </script>
 
 <style lang='scss'>
-.StatBox {
-  display: grid;
-  grid-column-end: span 2;
-  grid-gap: 0px 25px;
-  grid-row-start: 2;
-  grid-template-columns: 250px calc(100% - 250px);
-  grid-template-rows: 50px calc(100% - 50px);
-  justify-items: center;
+/* Portrait */
+@media only screen and (min-device-width: 375px){
+  .StatBox{
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
-  &__Content {
-    grid-row-start: 2;
-    grid-column-start: 2;
-  }
+    &__ControlList{
+      list-style: none;
+      margin: auto;
+      padding: 0;
+    }
 
-  &__ControlList {
-    display: inline-flex;
-    grid-row-start: 1;
-    grid-column-start: 2;
-    list-style: none;
-    padding: 0;
-  }
+    &__ControlItem {
+      display: inline-block;
+      margin: 5px 10px;
+    }
 
-  &__ControlItem {
-    margin: 5px;
-  }
+    &__Content{
+      width: 100%;
+      overflow: scroll;
+      padding: 10px 0px
+    }
 
-  &__Table {
-    background-color: rgba(215, 238, 247, 0.25);
-    border: 10px solid rgba(0, 0, 0, 0.8);
-    border-spacing: 0px;
-    border-radius: 10px;
-    padding: 10px;
+    &__Table {
+      background-color: rgba(215, 238, 247, 0.25);
+      border-spacing: 0px;
 
-    thead {
-      th {
-        background-color: #fdb1be;
+      thead {
+        th {
+          background-color: #fdb1be;
+          border: 2px solid rgba(0, 0, 0, 0.85);
+          border-right: none;
+          border-top-left-radius: 7.5px;
+          border-top-right-radius: 7.5px;
+          padding: 5px 2px;
+          text-align: right;
+
+          &:first-of-type {
+            text-align: center;
+            border-right: none;
+          }
+
+          &:nth-of-type(2) {
+            text-align: left;
+          }
+
+          &:last-of-type {
+            border-right: 2px solid black;
+          }
+        }
+      }
+
+      td {
         border: 2px solid rgba(0, 0, 0, 0.85);
         border-right: none;
-        border-top-left-radius: 7.5px;
-        border-top-right-radius: 7.5px;
-        padding: 10px;
+        border-top: none;
+        max-width: 100px;
+        padding: 8px;
         text-align: right;
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 
         &:first-of-type {
           text-align: center;
@@ -172,41 +191,116 @@ export default {
           text-align: left;
         }
 
-        &:last-of-type {
+        &:last-child {
           border-right: 2px solid black;
         }
       }
-    }
 
-    td {
-      border: 2px solid rgba(0, 0, 0, 0.85);
-      border-right: none;
-      border-top: none;
-      max-width: 400px;
-      padding: 10px;
-      text-align: right;
-      transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-
-      &:first-of-type {
-        text-align: center;
-        border-right: none;
-      }
-
-      &:nth-of-type(2) {
-        text-align: left;
-      }
-
-      &:last-child {
-        border-right: 2px solid black;
-      }
-    }
-
-    tr {
-      &:hover {
-        color: rgba(0, 0, 0, 0.9);
-        background-color: rgba(21, 158, 212, 0.5);
+      tr {
+        &:hover {
+          color: rgba(0, 0, 0, 0.9);
+          background-color: rgba(21, 158, 212, 0.5);
+        }
       }
     }
   }
 }
+
+/* Desktop */
+@media only screen and (min-device-width: 813px){
+  .StatBox {
+    display: grid;
+    grid-column-end: span 2;
+    grid-gap: 0px 25px;
+    grid-row-start: 2;
+    grid-template-columns: 250px calc(100% - 250px);
+    grid-template-rows: 50px calc(100% - 50px);
+    justify-items: center;
+
+    &__Content {
+      grid-row-start: 2;
+      grid-column-start: 2;
+      overflow: auto;
+      padding: 15px;
+      width: auto;
+    }
+
+    &__ControlList {
+      display: inline-flex;
+      grid-row-start: 1;
+      grid-column-start: 2;
+      list-style: none;
+      padding: 0;
+    }
+
+    &__ControlItem {
+      margin: 5px;
+    }
+
+    &__Table {
+      background-color: rgba(215, 238, 247, 0.25);
+      border: 10px solid rgba(0, 0, 0, 0.8);
+      border-spacing: 0px;
+      border-radius: 10px;
+      padding: 10px;
+
+      thead {
+        th {
+          background-color: #fdb1be;
+          border: 2px solid rgba(0, 0, 0, 0.85);
+          border-right: none;
+          border-top-left-radius: 7.5px;
+          border-top-right-radius: 7.5px;
+          padding: 10px;
+          text-align: right;
+
+          &:first-of-type {
+            text-align: center;
+            border-right: none;
+          }
+
+          &:nth-of-type(2) {
+            text-align: left;
+          }
+
+          &:last-of-type {
+            border-right: 2px solid black;
+          }
+        }
+      }
+
+      td {
+        border: 2px solid rgba(0, 0, 0, 0.85);
+        border-right: none;
+        border-top: none;
+        max-width: 400px;
+        padding: 10px;
+        text-align: right;
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:first-of-type {
+          text-align: center;
+          border-right: none;
+        }
+
+        &:nth-of-type(2) {
+          text-align: left;
+        }
+
+        &:last-child {
+          border-right: 2px solid black;
+        }
+      }
+
+      tr {
+        &:hover {
+          color: rgba(0, 0, 0, 0.9);
+          background-color: rgba(21, 158, 212, 0.5);
+        }
+      }
+    }
+
+  }
+}
+
 </style>

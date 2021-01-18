@@ -7,13 +7,13 @@ require('dotenv').config();
 
 var client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
 var client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
-var baseURL = process.env.NODE_ENV = 'production'
-  ? 'https://spottystats-dev.herokuapp.com/'
-  : 'http://localhost:8081/';
+var baseURL = process.env.NODE_ENV === 'DEVELOPMENT'
+  ? 'http://localhost:8080/'
+  : 'https://spottystats-dev.herokuapp.com/';
 
-var redirect_uri = process.env.PORT
-  ? 'https://spottystats-dev.herokuapp.com/callback/'
-  : 'http://localhost:8888/callback/';
+var redirect_uri = process.env.NODE_ENV === "DEVELOPMENT"
+  ? 'http://localhost:8888/callback/'
+  : 'https://spottystats-dev.herokuapp.com/callback/';
 
 /**
  * Generates a random string containing numbers and letters

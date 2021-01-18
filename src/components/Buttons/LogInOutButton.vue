@@ -3,7 +3,7 @@
     <a
       class="ActionButton ActionButton--Constructive"
       v-if="inOut === 'in'"
-      href='/login'
+      href='http://localhost:8888/login'
     >
       Log In
     </a>
