@@ -8,11 +8,11 @@
 
         <div v-if="isArtistCard" class="Card__Body">
             <h3>{{item.name}}</h3>
-            <p>
+            <p v-if="artistFilters.showPopularity">
                 <span>Popularity:</span>
                 {{item.popularity}}
             </p>
-            <p>
+            <p v-if="artistFilters.showGenres">
                 <span>Genres:</span>
                 <span class="normal" v-for="genre in item.genres" :key="item.uri + genre">
                     {{ genre + " " }}
@@ -22,22 +22,26 @@
 
         <div v-if="isSongCard" class="Card__Body">
             <p>
-                <span>Artist:</span>
-                {{item.artists[0].name}}
-            </p>
-            <p>
-                <span>Album:</span>
+                <span>Song:</span>
                 {{item.name}}
             </p>
             <p>
+                <span>Artist:</span>
+                {{item.artists[0].name}}
+            </p>
+            <p v-if="songFilters.showAlbumTitle">
+                <span>Album:</span>
+                {{item.name}}
+            </p>
+            <p v-if="songFilters.showReleaseDate">
                 <span>Release Date:</span>
                 {{item.album.release_date}}
             </p>
-            <p>
+            <p v-if="songFilters.showPopularity">
                 <span>Popularity:</span>
                 {{item.popularity}}
             </p>
-            <p>
+            <p v-if="songFilters.showDuration">
                 <span>Duration:</span>
                 {{formatMilliseconds(item.duration_ms)}}
             </p>
@@ -46,6 +50,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'Card',
@@ -64,6 +69,13 @@ export default {
         return this.item.album.images[1].url;
       }
       return null;
+    },
+    ...mapState(['tableFilters']),
+    artistFilters() {
+      return this.tableFilters.artists;
+    },
+    songFilters() {
+      return this.tableFilters.songs;
     },
   },
   methods: {
