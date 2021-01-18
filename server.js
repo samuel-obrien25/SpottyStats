@@ -5,9 +5,15 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-var client_id = process.env.VUE_APP_CLIENT_ID;
-var client_secret = process.env.VUE_APP_CLIENT_SECRET;
-var redirect_uri = 'http://localhost:8888/callback/';
+var client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
+var client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
+var baseURL = process.env.NODE_ENV = 'production'
+  ? 'https://spottystats-dev.herokuapp.com/'
+  : 'http://localhost:8081/';
+
+var redirect_uri = process.env.PORT
+  ? 'https://spottystats-dev.herokuapp.com/callback/'
+  : 'http://localhost:8888/callback/';
 
 /**
  * Generates a random string containing numbers and letters
@@ -86,7 +92,7 @@ var generateRandomString = function(length) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
   
-          res.redirect('http://localhost:8081/?' +
+          res.redirect(baseURL + '?' +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
@@ -127,17 +133,7 @@ var generateRandomString = function(length) {
 
   app.get('/logout', function(req, res) {
     res.clearCookie(stateKey);
-    res.redirect('http://localhost:8081/home');
-  });
-
-  app.get('/top_artists', function(req, res) {
-
-    var access_token = req.query.refresh_token;
-    var options = {
-      url: 'https://api.spotify.com/v1/me',
-      headers: { 'Authorization': 'Bearer ' + access_token },
-      json: true
-    };
+    res.redirect(baseURL + 'home');
   });
   
   console.log('Listening on 8888');
