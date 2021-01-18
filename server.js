@@ -13,7 +13,7 @@ var baseURL = process.env.NODE_ENV === 'DEVELOPMENT'
 
 var redirect_uri = process.env.NODE_ENV === "DEVELOPMENT"
   ? 'http://localhost:8888/api/callback/'
-  : 'https://spottystats-dev.herokuapp.com/callback/';
+  : 'https://spottystats-dev.herokuapp.com/api/callback/';
 
 /**
  * Generates a random string containing numbers and letters
