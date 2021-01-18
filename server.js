@@ -5,9 +5,27 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-var client_id = process.env.VUE_APP_CLIENT_ID;
-var client_secret = process.env.VUE_APP_CLIENT_SECRET;
-var redirect_uri = 'http://localhost:8888/callback/';
+var client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
+var client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
+let baseURL;
+let redirect_uri;
+
+(function () {
+  if (process.env.NODE_ENV == 'DEVELOPMENT') {
+    baseURL = 'http://localhost:8080/';
+    redirect_uri = 'http://localhost:8888/api/callback/';
+  }
+
+  if (process.env.NODE_ENV == 'STAGING') {
+    baseURL = 'https://spottystats-dev.herokuapp.com/';
+    redirect_uri = 'https://spottystats-dev.herokuapp.com/api/callback/';
+  }
+
+  if (process.env.NODE_ENV == 'PRODUCTION') {
+    baseURL = 'https://spottystats.herokuapp.com/';
+    redirect_uri = 'https://spottystats.herokuapp.com/api/callback/';
+  }
+})();
 
 /**
  * Generates a random string containing numbers and letters
@@ -28,11 +46,11 @@ var generateRandomString = function(length) {
   
   var app = express();
   
-  app.use(express.static(__dirname + '/public'))
+  app.use(express.static(__dirname + '/dist'))
      .use(cors())
      .use(cookieParser());
   
-  app.get('/login', function(req, res) {
+  app.get('/api/login', function(req, res) {
   
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
@@ -50,7 +68,7 @@ var generateRandomString = function(length) {
       }));
   });
   
-  app.get('/callback', function(req, res) {
+  app.get('/api/callback', function(req, res) {
   
     // your application requests refresh and access tokens
     // after checking the state parameter
@@ -86,7 +104,7 @@ var generateRandomString = function(length) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
   
-          res.redirect('http://localhost:8081/?' +
+          res.redirect(baseURL + '?' +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
@@ -101,7 +119,7 @@ var generateRandomString = function(length) {
     }
   });
   
-  app.get('/refresh_token', function(req, res) {
+  app.get('/api/refresh_token', function(req, res) {
   
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
@@ -125,20 +143,10 @@ var generateRandomString = function(length) {
     });
   });
 
-  app.get('/logout', function(req, res) {
+  app.get('/api/logout', function(req, res) {
     res.clearCookie(stateKey);
-    res.redirect('http://localhost:8081/home');
-  });
-
-  app.get('/top_artists', function(req, res) {
-
-    var access_token = req.query.refresh_token;
-    var options = {
-      url: 'https://api.spotify.com/v1/me',
-      headers: { 'Authorization': 'Bearer ' + access_token },
-      json: true
-    };
+    res.redirect(baseURL + 'home');
   });
   
   console.log('Listening on 8888');
-  app.listen(8888);
+  app.listen(process.env.PORT || 8888);

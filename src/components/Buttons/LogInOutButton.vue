@@ -1,7 +1,19 @@
 <template>
   <div class="LogInOut__Wrapper">
-    <a class="ActionButton ActionButton--Constructive" v-if="inOut === 'in'" href='http://localhost:8888/login'>Log In</a>
-    <a class="ActionButton ActionButton--Destructive" v-else href='http://localhost:8888/logout'>Log Out</a>
+    <a
+      class="ActionButton ActionButton--Constructive"
+      v-if="inOut === 'in'"
+      href='/api/login'
+    >
+      Log In
+    </a>
+    <a
+      class="ActionButton ActionButton--Destructive"
+      v-else
+      href='/api/logout'
+    >
+      Log Out
+    </a>
   </div>
 </template>
 

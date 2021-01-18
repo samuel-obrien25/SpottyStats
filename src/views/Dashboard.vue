@@ -30,19 +30,33 @@ export default {
 </script>
 
 <style lang="scss">
+/* Portrait */
+@media only screen and (min-device-width: 375px){
 
-.DashboardView{
+  .DashboardView{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+}
+
+/* Desktop */
+@media only screen and (min-device-width: 813px){
+
+  .DashboardView{
     display: grid;
     grid-template-columns: 250px calc(100% - 250px);
     grid-template-rows: 50px calc(100% - 50px);
     height: 100%;
     width: 100%;
 
-    &__Title{
-      grid-column-start: 2;
-      grid-row-start: 1;
-      margin: auto;
-    }
-}
+      &__Title{
+        grid-column-start: 2;
+        grid-row-start: 1;
+        margin: auto;
+      }
+  }
 
+}
 </style>

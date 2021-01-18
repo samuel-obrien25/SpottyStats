@@ -1,5 +1,5 @@
 <template>
-  <DefaultPage/>
+  <DefaultPage :isSplash="true"/>
 </template>
 
 <script>

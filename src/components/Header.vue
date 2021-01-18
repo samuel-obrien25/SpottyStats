@@ -17,6 +17,9 @@ export default {
   components: {
     LogInOutButton,
   },
+  props: {
+    isSplash: Boolean,
+  },
   computed: {
     inOrOut() {
       return this.user ? 'out' : 'in';
@@ -29,19 +32,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  /* Portrait */
+  @media only screen and (min-device-width: 375px){
     .Header {
-        background-color: #111111;
+      background-color: #111111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 50px;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+
+      &__Body, &__Pipe, &__Title{
         color: #fff;
-        display: flex;
-        height: 85px;
-        left: 0;
-        position: absolute;
-        text-align: left;
-        top: 0;
-        width: 100%;
+        margin: auto;
+      }
+
+      &__Pipe, &__Body{
+        display: none;
+      }
+
+      &__Title{
+        padding: 8px;
+      }
+
+      &__LogInOut{
+        margin: 0;
+        position: fixed;
+        bottom: 10px;
+        right: 0px;
+      }
+    }
+  }
+
+  /* Desktop */
+  @media only screen and (min-device-width: 813px){
+    .Header {
+      flex-direction: row;
+      height: 85px;
+      text-align: left;
+      width: 100%;
 
         &__Body, &__Pipe, &__Title{
-            margin: auto 5px;
+          margin: auto 5px;
+        }
+
+        &__Pipe, &__Body{
+          display: block;
         }
 
         &__Pipe{
@@ -49,13 +89,15 @@ export default {
         }
 
         &__Title{
-            color: #fff;
             padding: 8px;
         }
 
         &__LogInOut{
-            margin: auto;
-            margin-right: 0;
+          bottom: auto;
+          margin: auto;
+          margin-right: 10px;
+          position: relative;
         }
     }
+  }
 </style>
