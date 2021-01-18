@@ -3,14 +3,14 @@
     <a
       class="ActionButton ActionButton--Constructive"
       v-if="inOut === 'in'"
-      href='http://localhost:8888/login'
+      href='/api/login'
     >
       Log In
     </a>
     <a
       class="ActionButton ActionButton--Destructive"
       v-else
-      href='/logout'
+      href='/api/logout'
     >
       Log Out
     </a>

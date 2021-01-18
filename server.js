@@ -12,7 +12,7 @@ var baseURL = process.env.NODE_ENV === 'DEVELOPMENT'
   : 'https://spottystats-dev.herokuapp.com/';
 
 var redirect_uri = process.env.NODE_ENV === "DEVELOPMENT"
-  ? 'http://localhost:8888/callback/'
+  ? 'http://localhost:8888/api/callback/'
   : 'https://spottystats-dev.herokuapp.com/callback/';
 
 /**
@@ -38,7 +38,7 @@ var generateRandomString = function(length) {
      .use(cors())
      .use(cookieParser());
   
-  app.get('/login', function(req, res) {
+  app.get('/api/login', function(req, res) {
   
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
@@ -56,7 +56,7 @@ var generateRandomString = function(length) {
       }));
   });
   
-  app.get('/callback', function(req, res) {
+  app.get('/api/callback', function(req, res) {
   
     // your application requests refresh and access tokens
     // after checking the state parameter
@@ -107,7 +107,7 @@ var generateRandomString = function(length) {
     }
   });
   
-  app.get('/refresh_token', function(req, res) {
+  app.get('/api/refresh_token', function(req, res) {
   
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
@@ -131,7 +131,7 @@ var generateRandomString = function(length) {
     });
   });
 
-  app.get('/logout', function(req, res) {
+  app.get('/api/logout', function(req, res) {
     res.clearCookie(stateKey);
     res.redirect(baseURL + 'home');
   });
