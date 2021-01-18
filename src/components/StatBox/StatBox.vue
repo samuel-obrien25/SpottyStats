@@ -77,6 +77,15 @@ export default {
       this.$store.dispatch({ type: 'setTopSongs' });
     }
   },
+  watch: {
+    visibleStats(oldVal, newVal) {
+      if (oldVal !== newVal) {
+        window.setTimeout(() => {
+          document.querySelector('.CardStack').scrollLeft = 0;
+        }, 500);
+      }
+    },
+  },
 };
 </script>
 
