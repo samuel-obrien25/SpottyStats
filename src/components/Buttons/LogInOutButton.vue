@@ -1,15 +1,15 @@
 <template>
   <div class="LogInOut__Wrapper">
-    <a 
-      class="ActionButton ActionButton--Constructive" 
-      v-if="inOut === 'in'" 
+    <a
+      class="ActionButton ActionButton--Constructive"
+      v-if="inOut === 'in'"
       href='/login'
     >
       Log In
     </a>
-    <a 
-      class="ActionButton ActionButton--Destructive" 
-      v-else 
+    <a
+      class="ActionButton ActionButton--Destructive"
+      v-else
       href='/logout'
     >
       Log Out
