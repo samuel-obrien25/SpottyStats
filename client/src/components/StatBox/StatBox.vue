@@ -55,6 +55,7 @@
 import { mapState } from 'vuex';
 import Card from '../Card.vue';
 import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
+import Types from '../../store/types';
 
 export default {
   name: 'StatBox',
@@ -62,19 +63,23 @@ export default {
     Card,
     StatBoxFilters,
   },
-  computed: mapState(['topArtists', 'topSongs', 'tableFilters']),
+  computed: mapState([
+    Types.state.topArtists,
+    Types.state.topSongs,
+    Types.state.filters,
+  ]),
   data() {
     return {
       visibleStats: 'none',
     };
   },
   mounted() {
-    if (!this.$store.getters.getTopArtists) {
-      this.$store.dispatch({ type: 'setTopArtists' });
+    if (!this.$store.getters.GET_TOP_ARTISTS) {
+      this.$store.dispatch({ type: Types.actions.UPDATE_TOP_ARTISTS });
     }
 
-    if (!this.$store.getters.getTopSongs) {
-      this.$store.dispatch({ type: 'setTopSongs' });
+    if (!this.$store.getters.GET_TOP_SONGS) {
+      this.$store.dispatch({ type: Types.actions.UPDATE_TOP_SONGS });
     }
   },
   watch: {

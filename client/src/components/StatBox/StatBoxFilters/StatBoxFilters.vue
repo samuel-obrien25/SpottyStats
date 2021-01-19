@@ -78,6 +78,7 @@
 
 <script>
 import ActionButton from '../../Buttons/ActionButton.vue';
+import Types from '../../../store/types';
 
 export default {
   name: 'StatBoxFilters',
@@ -106,30 +107,31 @@ export default {
   mounted() {
     this.filters = {
       artists: {
-        showGenres: this.$store.getters.getFiltersArtists.showGenres,
-        showPopularity: this.$store.getters.getFiltersArtists.showPopularity,
+        showGenres: this.$store.getters.GET_FILTERS_ARTISTS.showGenres,
+        showPopularity: this.$store.getters.GET_FILTERS_ARTISTS.showPopularity,
       },
       songs: {
-        showAlbumTitle: this.$store.getters.getFiltersSongs.showAlbumTitle,
-        showDuration: this.$store.getters.getFiltersSongs.showDuration,
-        showPopularity: this.$store.getters.getFiltersSongs.showPopularity,
-        showReleaseDate: this.$store.getters.getFiltersSongs.showReleaseDate,
+        showAlbumTitle: this.$store.getters.GET_FILTERS_SONGS.showAlbumTitle,
+        showDuration: this.$store.getters.GET_FILTERS_SONGS.showDuration,
+        showPopularity: this.$store.getters.GET_FILTERS_SONGS.showPopularity,
+        showReleaseDate: this.$store.getters.GET_FILTERS_SONGS.showReleaseDate,
       },
     };
   },
   methods: {
     updateStack() {
+      const { UPDATE_FILTERS, UPDATE_TOP_ARTISTS } = Types.actions;
       const stackFilters = this.filters;
-      this.$store.dispatch('setTableFilters', {
+      this.$store.dispatch(UPDATE_FILTERS, {
         ...stackFilters,
       });
 
-      this.$store.dispatch('setTopArtists', {
+      this.$store.dispatch(UPDATE_TOP_ARTISTS, {
         timeRange: this.timeSpanValue,
         limit: this.numResultsValue,
       });
 
-      this.$store.dispatch('setTopSongs', {
+      this.$store.dispatch(UPDATE_FILTERS, {
         timeRange: this.timeSpanValue,
         limit: this.numResultsValue,
       });

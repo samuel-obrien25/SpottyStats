@@ -4,7 +4,7 @@
 
 <script>
 import 'vue-router';
-import DefaultPage from '../templates/DefaultPage.vue';
+import DefaultPage from './templates/DefaultPage.vue';
 
 export default {
   name: 'App',

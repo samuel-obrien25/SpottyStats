@@ -5,8 +5,8 @@
     "node": "14.x"
   },
     "scripts": {
-    "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build --mode production",
+    "serve": "vue-cli-service serve --mode development client/src/main.js",
+    "build": "vue-cli-service build --mode production client/src/main.js",
     "lint": "vue-cli-service lint",
     "postinstall": "npm run build",
     "start": "node server.js"

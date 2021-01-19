@@ -11,6 +11,7 @@
 
 <script>
 import LogInOutButton from './Buttons/LogInOutButton.vue';
+import { GET_USER } from '../store/getters';
 
 export default {
   name: 'Header',
@@ -25,7 +26,7 @@ export default {
       return this.user ? 'out' : 'in';
     },
     user() {
-      return this.$store.getters.getUser;
+      return GET_USER;
     },
   },
 };

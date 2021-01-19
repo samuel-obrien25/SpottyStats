@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+import Header from '../../components/Header.vue';
 
 export default {
   name: 'DefaultPage',
@@ -34,7 +34,7 @@ html, body{
 /* Portrait */
 @media only screen and (min-device-width: 375px){
   #app{
-    background-image: url('../assets/background.svg');
+    background-image: url('../../assets/background.svg');
     background-size: cover;
     color: #2c3e50;
     font-family: Avenir, Helvetica, Arial, sans-serif;

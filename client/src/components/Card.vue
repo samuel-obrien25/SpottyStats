@@ -49,6 +49,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import Types from '../store/types';
 
 export default {
   name: 'Card',
@@ -68,12 +69,12 @@ export default {
       }
       return null;
     },
-    ...mapState(['tableFilters']),
+    ...mapState([Types.state.filters]),
     artistFilters() {
-      return this.tableFilters.artists;
+      return this.filters.artists;
     },
     songFilters() {
-      return this.tableFilters.songs;
+      return this.filters.songs;
     },
   },
   methods: {
