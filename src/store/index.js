@@ -110,10 +110,10 @@ const store = new Vuex.Store({
     getDidSucceed(state) {
       return state.didSucceed;
     },
-    getTableFiltersArtists(state) {
+    getFiltersArtists(state) {
       return state.tableFilters.artists;
     },
-    getTableFiltersSongs(state) {
+    getFiltersSongs(state) {
       return state.tableFilters.songs;
     },
     getTopArtists(state) {

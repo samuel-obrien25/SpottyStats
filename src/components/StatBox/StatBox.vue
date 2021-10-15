@@ -20,78 +20,46 @@
         </button>
       </li>
     </ul>
-    <div class="StatBox__Content">
-      <table class="StatBox__Table" v-if="visibleStats === 'artists'">
-        <thead>
-          <th>Rank</th>
-          <th>Artist</th>
-          <th v-if="tableFilters.artists.showGenres">Genres</th>
-          <th v-if="tableFilters.artists.showPopularity">Popularity</th>
-          <th>URL</th>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in this.topArtists.data.items"
-            :key="item.uri"
-          >
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td v-if="tableFilters.artists.showGenres">
-              <span v-for="genre in item.genres" :key="item.uri + genre"
-                >{{ genre + " " }}
-              </span>
-            </td>
-            <td v-if="tableFilters.artists.showPopularity">
-              {{ item.popularity }}
-            </td>
-            <td><a :href="item.uri">LINK</a></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="StatBox__Table" v-if="visibleStats === 'songs'">
-        <thead>
-          <th>Rank</th>
-          <th>Song</th>
-          <th>Artist</th>
-          <th v-if="tableFilters.songs.showAlbumTitle">Album</th>
-          <th v-if="tableFilters.songs.showReleaseDate">Release Date</th>
-          <th v-if="tableFilters.songs.showDuration">Duration</th>
-          <th v-if="tableFilters.songs.showPopularity">Popularity</th>
-          <th>URL</th>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in this.topSongs.data.items" :key="item.uri">
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.artists[0].name }}</td>
-            <td v-if="tableFilters.songs.showAlbumTitle">
-              {{ item.album.name }}
-            </td>
-            <td v-if="tableFilters.songs.showReleaseDate">
-              {{ item.album.release_date }}
-            </td>
-            <td v-if="tableFilters.songs.showDuration">
-              {{ formatMilliseconds(item.duration_ms) }}
-            </td>
-            <td v-if="tableFilters.songs.showPopularity">
-              {{ item.popularity }}
-            </td>
-            <td><a :href="item.uri">LINK</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="StatBox__Content">
+        <transition-group
+          class="CardStack"
+          name="list"
+          v-if="visibleStats === 'artists'"
+          tag="div"
+        >
+          <Card v-for="(item, index) in this.topArtists.data.items"
+                v-bind:key="item.id"
+                v-bind:isArtistCard="true"
+                v-bind:item="item"
+                v-bind:rank="index"
+          />
+        </transition-group>
+        <transition-group
+          class="CardStack"
+          name="list"
+          v-if="visibleStats === 'songs'"
+          tag="div"
+        >
+          <Card v-for="(item, index) in this.topSongs.data.items"
+                v-bind:key="item.id"
+                v-bind:isSongCard="true"
+                v-bind:item="item"
+                v-bind:rank="index"
+          />
+        </transition-group>
+      </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import Card from '../Card.vue';
 import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
 
 export default {
   name: 'StatBox',
   components: {
+    Card,
     StatBoxFilters,
   },
   computed: mapState(['topArtists', 'topSongs', 'tableFilters']),
@@ -99,13 +67,6 @@ export default {
     return {
       visibleStats: 'none',
     };
-  },
-  methods: {
-    formatMilliseconds(input) {
-      const minutes = Math.floor(input / 60000);
-      const seconds = ((input % 60000) / 1000).toFixed(0);
-      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    },
   },
   mounted() {
     if (!this.$store.getters.getTopArtists) {
@@ -116,97 +77,102 @@ export default {
       this.$store.dispatch({ type: 'setTopSongs' });
     }
   },
+  watch: {
+    visibleStats(oldVal, newVal) {
+      if (oldVal !== newVal) {
+        window.setTimeout(() => {
+          document.querySelector('.CardStack').scrollLeft = 0;
+        }, 500);
+      }
+    },
+  },
 };
 </script>
 
 <style lang='scss'>
-.StatBox {
-  display: grid;
-  grid-column-end: span 2;
-  grid-gap: 0px 25px;
-  grid-row-start: 2;
-  grid-template-columns: 250px calc(100% - 250px);
-  grid-template-rows: 50px calc(100% - 50px);
-  justify-items: center;
-
-  &__Content {
-    grid-row-start: 2;
-    grid-column-start: 2;
+/* Portrait */
+@media only screen and (min-device-width: 375px){
+  .list-enter-active, .list-leave-active {
+    transition: all .5s;
+  }
+  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
   }
 
-  &__ControlList {
-    display: inline-flex;
-    grid-row-start: 1;
-    grid-column-start: 2;
-    list-style: none;
-    padding: 0;
-  }
+  .StatBox{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    position: relative;
 
-  &__ControlItem {
-    margin: 5px;
-  }
-
-  &__Table {
-    background-color: rgba(215, 238, 247, 0.25);
-    border: 10px solid rgba(0, 0, 0, 0.8);
-    border-spacing: 0px;
-    border-radius: 10px;
-    padding: 10px;
-
-    thead {
-      th {
-        background-color: #fdb1be;
-        border: 2px solid rgba(0, 0, 0, 0.85);
-        border-right: none;
-        border-top-left-radius: 7.5px;
-        border-top-right-radius: 7.5px;
-        padding: 10px;
-        text-align: right;
-
-        &:first-of-type {
-          text-align: center;
-          border-right: none;
-        }
-
-        &:nth-of-type(2) {
-          text-align: left;
-        }
-
-        &:last-of-type {
-          border-right: 2px solid black;
-        }
-      }
+    &__ControlList{
+      list-style: none;
+      margin: auto;
+      padding: 0;
     }
 
-    td {
-      border: 2px solid rgba(0, 0, 0, 0.85);
-      border-right: none;
-      border-top: none;
-      max-width: 400px;
-      padding: 10px;
-      text-align: right;
-      transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-
-      &:first-of-type {
-        text-align: center;
-        border-right: none;
-      }
-
-      &:nth-of-type(2) {
-        text-align: left;
-      }
-
-      &:last-child {
-        border-right: 2px solid black;
-      }
+    &__ControlItem {
+      display: inline-block;
+      margin: 5px 10px;
     }
 
-    tr {
-      &:hover {
-        color: rgba(0, 0, 0, 0.9);
-        background-color: rgba(21, 158, 212, 0.5);
-      }
+    &__Content{
+      height: auto;
+      width: 100%;
+      padding: 10px 0px
+    }
+
+    .CardStack{
+      display: flex;
+      flex-direction: row;
+      align-items:flex-start;
+      height: auto;
+      position: relative;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: scroll;
+      scroll-snap-type: x proximity;
     }
   }
 }
+
+/* Desktop */
+@media only screen and (min-device-width: 813px){
+  .StatBox {
+    display: grid;
+    grid-column-end: span 2;
+    grid-gap: 0px 25px;
+    grid-row-start: 2;
+    grid-template-columns: 250px calc(100% - 250px);
+    grid-template-rows: 50px calc(100% - 50px);
+    justify-items: center;
+
+    &__Content {
+      grid-row-start: 2;
+      grid-column-start: 2;
+      overflow: auto;
+      padding: 15px;
+      width: auto;
+    }
+
+    &__ControlList {
+      display: inline-flex;
+      grid-row-start: 1;
+      grid-column-start: 2;
+      list-style: none;
+      padding: 0;
+    }
+
+    &__ControlItem {
+      margin: 5px;
+    }
+
+    .CardStack{
+      flex-wrap: wrap;
+    }
+
+  }
+}
+
 </style>

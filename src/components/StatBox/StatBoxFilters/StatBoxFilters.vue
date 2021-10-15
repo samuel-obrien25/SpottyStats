@@ -27,7 +27,7 @@
           </select>
         </label>
 
-        <h4>Table Options</h4>
+        <h4>Stack Options</h4>
 
         <h5>Top Artists</h5>
         <label>
@@ -64,9 +64,9 @@
         <div class="StatBoxFilters__ActionsContainer">
           <ActionButton
             type="Constructive"
-            v-on:click.native="updateTable"
+            v-on:click.native="updateStack"
           >
-          Update Table
+          Update Stack
           </ActionButton>
           <ActionButton type="Destructive">Reset Options</ActionButton>
         </div>
@@ -106,22 +106,22 @@ export default {
   mounted() {
     this.filters = {
       artists: {
-        showGenres: this.$store.getters.getTableFiltersArtists.showGenres,
-        showPopularity: this.$store.getters.getTableFiltersArtists.showPopularity,
+        showGenres: this.$store.getters.getFiltersArtists.showGenres,
+        showPopularity: this.$store.getters.getFiltersArtists.showPopularity,
       },
       songs: {
-        showAlbumTitle: this.$store.getters.getTableFiltersSongs.showAlbumTitle,
-        showDuration: this.$store.getters.getTableFiltersSongs.showDuration,
-        showPopularity: this.$store.getters.getTableFiltersSongs.showPopularity,
-        showReleaseDate: this.$store.getters.getTableFiltersSongs.showReleaseDate,
+        showAlbumTitle: this.$store.getters.getFiltersSongs.showAlbumTitle,
+        showDuration: this.$store.getters.getFiltersSongs.showDuration,
+        showPopularity: this.$store.getters.getFiltersSongs.showPopularity,
+        showReleaseDate: this.$store.getters.getFiltersSongs.showReleaseDate,
       },
     };
   },
   methods: {
-    updateTable() {
-      const tableFilters = this.filters;
+    updateStack() {
+      const stackFilters = this.filters;
       this.$store.dispatch('setTableFilters', {
-        ...tableFilters,
+        ...stackFilters,
       });
 
       this.$store.dispatch('setTopArtists', {
