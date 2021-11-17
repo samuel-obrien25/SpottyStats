@@ -158,7 +158,7 @@ export default {
 
           button{
             background-color: rgb(255, 227, 107);
-            box-shadow: -3px 3px 0px 1px rgba(255, 207, 0);
+            box-shadow: -3px 3px 0px 1px rgb(255, 207, 0);
             border: 3px solid rgba(0, 0, 0, 0.85);
             border-radius: 10px;
             display: block;
