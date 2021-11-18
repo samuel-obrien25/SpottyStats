@@ -1,10 +1,10 @@
 <template>
-    <div class="DashboardView">
-        <h2 class="DashboardView__Title">
-          Welcome to SpottyStats, {{this.user.display_name || null}}!
-        </h2>
-        <StatBox/>
-    </div>
+  <div class="DashboardView">
+    <h2 class="DashboardView__Title">
+      Welcome to SpottyStats, {{ this.user.display_name || null }}!
+    </h2>
+    <StatBox />
+  </div>
 </template>
 
 <script>

@@ -3,14 +3,14 @@
     <a
       class="ActionButton ActionButton--Constructive"
       v-if="inOut === 'in'"
-      href='/api/login'
+      href="/api/login"
     >
       Log In
     </a>
     <a
       class="ActionButton ActionButton--Destructive"
       v-else
-      href='/api/logout'
+      href="/api/logout"
     >
       Log Out
     </a>
@@ -21,7 +21,12 @@
 export default {
   name: 'LogInOutButton',
   props: {
-    inOut: String,
+    inOut: {
+      type: String,
+      default() {
+        return 'in';
+      },
+    },
   },
 };
 </script>

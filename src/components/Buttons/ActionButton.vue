@@ -1,14 +1,19 @@
 <template>
-    <button :class="['ActionButton', `ActionButton--${this.type}`]">
-        <slot></slot>
-    </button>
+  <button :class="['ActionButton', `ActionButton--${this.type}`]">
+    <slot />
+  </button>
 </template>
 
 <script>
 export default {
   name: 'ActionButton',
   props: {
-    type: String,
+    type: {
+      type: String,
+      default() {
+        return 'Constructive';
+      },
+    },
   },
 };
 </script>

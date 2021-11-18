@@ -6,7 +6,7 @@
       <li class="StatBox__ControlItem">
         <button
           class="StatBox__ControlItemButton"
-          v-on:click="visibleStats = 'songs'"
+          @click="visibleStats = 'songs'"
         >
           Top Songs
         </button>
@@ -14,40 +14,42 @@
       <li class="StatBox__ControlItem">
         <button
           class="StatBox__ControlItemButton"
-          v-on:click="visibleStats = 'artists'"
+          @click="visibleStats = 'artists'"
         >
           Top Artists
         </button>
       </li>
     </ul>
-      <div class="StatBox__Content">
-        <transition-group
-          class="CardStack"
-          name="list"
-          v-if="visibleStats === 'artists'"
-          tag="div"
-        >
-          <Card v-for="(item, index) in this.topArtists.data.items"
-                v-bind:key="item.id"
-                v-bind:isArtistCard="true"
-                v-bind:item="item"
-                v-bind:rank="index"
-          />
-        </transition-group>
-        <transition-group
-          class="CardStack"
-          name="list"
-          v-if="visibleStats === 'songs'"
-          tag="div"
-        >
-          <Card v-for="(item, index) in this.topSongs.data.items"
-                v-bind:key="item.id"
-                v-bind:isSongCard="true"
-                v-bind:item="item"
-                v-bind:rank="index"
-          />
-        </transition-group>
-      </div>
+    <div class="StatBox__Content">
+      <transition-group
+        class="CardStack"
+        name="list"
+        v-if="visibleStats === 'artists'"
+        tag="div"
+      >
+        <Card
+          v-for="(item, index) in this.topArtists.data.items"
+          :key="item.id"
+          :is-artist-card="true"
+          :item="item"
+          :rank="index"
+        />
+      </transition-group>
+      <transition-group
+        class="CardStack"
+        name="list"
+        v-if="visibleStats === 'songs'"
+        tag="div"
+      >
+        <Card
+          v-for="(item, index) in this.topSongs.data.items"
+          :key="item.id"
+          :is-song-card="true"
+          :item="item"
+          :rank="index"
+        />
+      </transition-group>
+    </div>
   </div>
 </template>
 

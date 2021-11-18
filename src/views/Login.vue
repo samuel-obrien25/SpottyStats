@@ -1,8 +1,11 @@
 <template>
-    <div class="LoginView">
-      <p>Welcome to SpottyStats! Log in to see various Spotify API data for your account.</p>
-      <LogInOutButton v-bind:inOut="'in'"/>
-    </div>
+  <div class="LoginView">
+    <p>
+      Welcome to SpottyStats! Log in to
+      see various Spotify API data for your account.
+    </p>
+    <LogInOutButton :in-out="'in'" />
+  </div>
 </template>
 
 <script>
