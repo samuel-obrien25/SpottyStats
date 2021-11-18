@@ -15,8 +15,12 @@ module.exports = {
   },
 
   rules: {
+    'camelcase': [0],
+    'func-names': [0],
+    'new-cap': [0],
     'no-console': 'off',
     'no-debugger': 'off',
+    'no-plusplus': [0],
     'linebreak-style': [0],
     'vue/array-bracket-spacing': 'error',
     'vue/arrow-spacing': 'error',
