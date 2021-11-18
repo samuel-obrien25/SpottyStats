@@ -1,79 +1,109 @@
 <template>
-    <div class="StatBoxFilters">
-      <h3>
-        <button v-on:click="showFilters = !showFilters">
-          {{showFilters ? 'Hide Filters' : 'Show Filters'}}
-        </button>
-      </h3>
-      <div class="StatBoxFilters__List" v-if="showFilters">
-        <h4>Frequency Options</h4>
-        <label>
-          Timespan
-          <select id="TimespanSelect" v-model="timeSpanValue">
-            <option value=''>Default</option>
-            <option value='short_term'>1 Month</option>
-            <option value='medium_term'>6 Months</option>
-            <option value='long_term'>Several Years</option>
-          </select>
-        </label>
+  <div class="StatBoxFilters">
+    <h3>
+      <button @click="showFilters = !showFilters">
+        {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+      </button>
+    </h3>
+    <div
+      class="StatBoxFilters__List"
+      v-if="showFilters"
+    >
+      <h4>Frequency Options</h4>
+      <label>
+        Timespan
+        <select
+          id="TimespanSelect"
+          v-model="timeSpanValue"
+        >
+          <option value="">Default</option>
+          <option value="short_term">1 Month</option>
+          <option value="medium_term">6 Months</option>
+          <option value="long_term">Several Years</option>
+        </select>
+      </label>
 
-        <label>
-          Display Options
-          <select id="NumResultsFilter" v-model="numResultsValue">
-            <option value=''>Default</option>
-            <option value='10'>10</option>
-            <option value='20'>20</option>
-            <option value='50'>50</option>
-          </select>
-        </label>
+      <label>
+        Display Options
+        <select
+          id="NumResultsFilter"
+          v-model="numResultsValue"
+        >
+          <option value="">Default</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </label>
 
-        <h4>Stack Options</h4>
+      <h4>Stack Options</h4>
 
-        <h5>Top Artists</h5>
-        <label>
-          Show Genres
-          <input id="GenresFilter" type="checkbox" v-model="filters.artists.showGenres"/>
-        </label>
+      <h5>Top Artists</h5>
+      <label>
+        Show Genres
+        <input
+          id="GenresFilter"
+          type="checkbox"
+          v-model="filters.artists.showGenres"
+        >
+      </label>
 
-        <label>
-          Show Popularity
-          <input id="PopularityFilter" type="checkbox" v-model="filters.artists.showPopularity"/>
-        </label>
+      <label>
+        Show Popularity
+        <input
+          id="PopularityFilter"
+          type="checkbox"
+          v-model="filters.artists.showPopularity"
+        >
+      </label>
 
-        <h5>Top Songs</h5>
-        <label>
-          Show Album Title
-          <input id="AlbumTitleFilter" type="checkbox" v-model="filters.songs.showAlbumTitle"/>
-        </label>
+      <h5>Top Songs</h5>
+      <label>
+        Show Album Title
+        <input
+          id="AlbumTitleFilter"
+          type="checkbox"
+          v-model="filters.songs.showAlbumTitle"
+        >
+      </label>
 
-        <label>
-          Show Release Date
-          <input type="checkbox" v-model="filters.songs.showReleaseDate"/>
-        </label>
+      <label>
+        Show Release Date
+        <input
+          type="checkbox"
+          v-model="filters.songs.showReleaseDate"
+        >
+      </label>
 
-        <label>
-          Show Popularity
-          <input type="checkbox" v-model="filters.songs.showPopularity"/>
-        </label>
+      <label>
+        Show Popularity
+        <input
+          type="checkbox"
+          v-model="filters.songs.showPopularity"
+        >
+      </label>
 
-        <label>
-          Show Song Duration
-          <input type="checkbox" v-model="filters.songs.showDuration"/>
-        </label>
+      <label>
+        Show Song Duration
+        <input
+          type="checkbox"
+          v-model="filters.songs.showDuration"
+        >
+      </label>
 
-        <div class="StatBoxFilters__ActionsContainer">
-          <ActionButton
-            type="Constructive"
-            v-on:click.native="updateStack"
-          >
+      <div class="StatBoxFilters__ActionsContainer">
+        <ActionButton
+          type="Constructive"
+          @click.native="updateStack"
+        >
           Update Stack
-          </ActionButton>
-          <ActionButton type="Destructive">Reset Options</ActionButton>
-        </div>
-
+        </ActionButton>
+        <ActionButton type="Destructive">
+          Reset Options
+        </ActionButton>
       </div>
-
     </div>
+  </div>
 </template>
 
 <script>

@@ -1,21 +1,24 @@
 <template>
-  <div id="app" class="Template__Default">
-    <Header/>
+  <div
+    id="app"
+    class="Template__Default"
+  >
+    <AppHeader />
     <main>
-      <div class='ContentWrapper'>
-        <router-view></router-view>
+      <div class="ContentWrapper">
+        <router-view />
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+import AppHeader from '../components/Header.vue';
 
 export default {
   name: 'DefaultPage',
   components: {
-    Header,
+    AppHeader,
   },
   props: {
     isSplash: Boolean,

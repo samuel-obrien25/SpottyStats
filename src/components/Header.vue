@@ -1,19 +1,23 @@
 <template>
-    <header class="Header">
-      <h1 class="Header__Title">SpottyStats</h1>
-      <span class="Header__Pipe">&#124;</span>
-      <p class="Header__Body">Spotify Usage Stats</p>
-      <div class="Header__LogInOut">
-          <LogInOutButton v-bind:inOut="inOrOut"/>
-      </div>
-    </header>
+  <header class="Header">
+    <h1 class="Header__Title">
+      SpottyStats
+    </h1>
+    <span class="Header__Pipe">&#124;</span>
+    <p class="Header__Body">
+      Spotify Usage Stats
+    </p>
+    <div class="Header__LogInOut">
+      <LogInOutButton :in-out="inOrOut" />
+    </div>
+  </header>
 </template>
 
 <script>
 import LogInOutButton from './Buttons/LogInOutButton.vue';
 
 export default {
-  name: 'Header',
+  name: 'AppHeader',
   components: {
     LogInOutButton,
   },

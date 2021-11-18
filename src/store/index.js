@@ -50,8 +50,12 @@ const store = new Vuex.Store({
     },
     setTopSongs({ commit }, payload) {
       const baseURL = 'https://api.spotify.com/v1/me/top/tracks?';
-      const timeRangeQueryParam = payload.timeRange ? `&time_range=${payload.timeRange.toString()}` : null;
-      const limitQueryParam = payload.limit ? `&limit=${payload.limit.toString()}` : null;
+      const timeRangeQueryParam = payload.timeRange
+        ? `&time_range=${payload.timeRange.toString()}`
+        : null;
+      const limitQueryParam = payload.limit
+        ? `&limit=${payload.limit.toString()}`
+        : null;
       let reqURL = baseURL;
 
       if (timeRangeQueryParam) {
@@ -72,8 +76,12 @@ const store = new Vuex.Store({
     },
     setTopArtists({ commit }, payload) {
       const baseURL = 'https://api.spotify.com/v1/me/top/artists?';
-      const timeRangeQueryParam = payload.timeRange ? `&time_range=${payload.timeRange.toString()}` : null;
-      const limitQueryParam = payload.limit ? `&limit=${payload.limit.toString()}` : null;
+      const timeRangeQueryParam = payload.timeRange
+        ? `&time_range=${payload.timeRange.toString()}`
+        : null;
+      const limitQueryParam = payload.limit
+        ? `&limit=${payload.limit.toString()}`
+        : null;
       let reqURL = baseURL;
 
       if (timeRangeQueryParam) {

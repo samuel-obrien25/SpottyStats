@@ -1,50 +1,64 @@
 <template>
-    <div class="Card">
-        <div class="Card__Header"
-             v-bind:style="{ 'background-image': 'url(' + this.backgroundImage + ')' }"
-        >
-            <span class="Card__Rank">{{(rank + 1).toString()}}</span>
-            <a v-bind:href="item.uri" class="Card__CTA">Play on Spotify</a>
-        </div>
-
-        <div v-if="isArtistCard" class="Card__Body">
-            <h3>{{item.name}}</h3>
-            <p v-if="artistFilters.showPopularity">
-                <span>Popularity:</span>
-                {{item.popularity}}
-            </p>
-            <p v-if="artistFilters.showGenres">
-                <span>Genres:</span>
-                <span class="normal" v-for="genre in item.genres" :key="item.uri + genre">
-                    {{ genre + " " }}
-                </span>
-            </p>
-        </div>
-
-        <div v-if="isSongCard" class="Card__Body">
-            <h3>{{item.name}}</h3>
-            <p>
-                <span>Artist:</span>
-                {{item.artists[0].name}}
-            </p>
-            <p v-if="songFilters.showAlbumTitle">
-                <span>Album:</span>
-                {{item.name}}
-            </p>
-            <p v-if="songFilters.showReleaseDate">
-                <span>Release Date:</span>
-                {{item.album.release_date}}
-            </p>
-            <p v-if="songFilters.showPopularity">
-                <span>Popularity:</span>
-                {{item.popularity}}
-            </p>
-            <p v-if="songFilters.showDuration">
-                <span>Duration:</span>
-                {{formatMilliseconds(item.duration_ms)}}
-            </p>
-        </div>
+  <div class="Card">
+    <div
+      class="Card__Header"
+      :style="{'background-image': 'url(' + this.backgroundImage + ')'}"
+    >
+      <span class="Card__Rank">{{ (rank + 1).toString() }}</span>
+      <a
+        :href="item.uri"
+        class="Card__CTA"
+      >Play on Spotify</a>
     </div>
+
+    <div
+      v-if="isArtistCard"
+      class="Card__Body"
+    >
+      <h3>{{ item.name }}</h3>
+      <p v-if="artistFilters.showPopularity">
+        <span>Popularity:</span>
+        {{ item.popularity }}
+      </p>
+      <p v-if="artistFilters.showGenres">
+        <span>Genres:</span>
+        <span
+          class="normal"
+          v-for="genre in item.genres"
+          :key="item.uri + genre"
+        >
+          {{ genre + " " }}
+        </span>
+      </p>
+    </div>
+
+    <div
+      v-if="isSongCard"
+      class="Card__Body"
+    >
+      <h3>{{ item.name }}</h3>
+      <p>
+        <span>Artist:</span>
+        {{ item.artists[0].name }}
+      </p>
+      <p v-if="songFilters.showAlbumTitle">
+        <span>Album:</span>
+        {{ item.name }}
+      </p>
+      <p v-if="songFilters.showReleaseDate">
+        <span>Release Date:</span>
+        {{ item.album.release_date }}
+      </p>
+      <p v-if="songFilters.showPopularity">
+        <span>Popularity:</span>
+        {{ item.popularity }}
+      </p>
+      <p v-if="songFilters.showDuration">
+        <span>Duration:</span>
+        {{ formatMilliseconds(item.duration_ms) }}
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -55,8 +69,18 @@ export default {
   props: {
     isArtistCard: Boolean,
     isSongCard: Boolean,
-    item: Object,
-    rank: Number,
+    item: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    rank: {
+      type: Number,
+      default() {
+        return 0;
+      },
+    },
   },
   computed: {
     backgroundImage() {
