@@ -1,23 +1,23 @@
 <template>
-  <header class="Header">
-    <h1 class="Header__Title">
+  <header class="SSHeader">
+    <h1 class="SSHeader__Title">
       SpottyStats
     </h1>
-    <span class="Header__Pipe">&#124;</span>
-    <p class="Header__Body">
+    <span class="SSHeader__Pipe">&#124;</span>
+    <p class="SSHeader__Body">
       Spotify Usage Stats
     </p>
-    <div class="Header__LogInOut">
+    <div class="SSHeader__LogInOut">
       <LogInOutButton :in-out="inOrOut" />
     </div>
   </header>
 </template>
 
 <script>
-import LogInOutButton from './Buttons/LogInOutButton.vue';
+import LogInOutButton from './LogInOutButton.vue';
 
 export default {
-  name: 'AppHeader',
+  name: 'SSHeader',
   components: {
     LogInOutButton,
   },
@@ -38,7 +38,7 @@ export default {
 <style lang="scss" scoped>
   /* Portrait */
   @media only screen and (min-device-width: 375px){
-    .Header {
+    .SSHeader {
       background-color: #111111;
       color: #fff;
       display: flex;
@@ -74,7 +74,7 @@ export default {
 
   /* Desktop */
   @media only screen and (min-device-width: 813px){
-    .Header {
+    .SSHeader {
       flex-direction: row;
       height: 85px;
       text-align: left;

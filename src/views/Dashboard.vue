@@ -1,14 +1,19 @@
 <template>
   <div class="DashboardView">
     <h2 class="DashboardView__Title">
-      Welcome to SpottyStats, {{ this.user.display_name || null }}!
+      Welcome to SpottyStats
+      <span
+        v-if="this.user"
+        v-html="this.user.display_name"
+      >!
+      </span>
     </h2>
     <StatBox />
   </div>
 </template>
 
 <script>
-import StatBox from '../components/StatBox/StatBox.vue';
+import StatBox from '../components/StatBox.vue';
 
 export default {
   name: 'Dashboard',

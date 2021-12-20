@@ -27,7 +27,7 @@
         v-if="visibleStats === 'artists'"
         tag="div"
       >
-        <Card
+        <SSCard
           v-for="(item, index) in this.topArtists.data.items"
           :key="item.id"
           :is-artist-card="true"
@@ -41,7 +41,7 @@
         v-if="visibleStats === 'songs'"
         tag="div"
       >
-        <Card
+        <SSCard
           v-for="(item, index) in this.topSongs.data.items"
           :key="item.id"
           :is-song-card="true"
@@ -55,13 +55,13 @@
 
 <script>
 import { mapState } from 'vuex';
-import Card from '../Card.vue';
-import StatBoxFilters from './StatBoxFilters/StatBoxFilters.vue';
+import SSCard from './SSCard.vue';
+import StatBoxFilters from './StatBoxFilters.vue';
 
 export default {
   name: 'StatBox',
   components: {
-    Card,
+    SSCard,
     StatBoxFilters,
   },
   computed: mapState(['topArtists', 'topSongs', 'tableFilters']),

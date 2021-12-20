@@ -1,19 +1,19 @@
 <template>
-  <div class="Card">
+  <div class="SSCard">
     <div
-      class="Card__Header"
+      class="SSCard__Header"
       :style="{'background-image': 'url(' + this.backgroundImage + ')'}"
     >
-      <span class="Card__Rank">{{ (rank + 1).toString() }}</span>
+      <span class="SSCard__Rank">{{ (rank + 1).toString() }}</span>
       <a
         :href="item.uri"
-        class="Card__CTA"
+        class="SSCard__CTA"
       >Play on Spotify</a>
     </div>
 
     <div
       v-if="isArtistCard"
-      class="Card__Body"
+      class="SSCard__Body"
     >
       <h3>{{ item.name }}</h3>
       <p v-if="artistFilters.showPopularity">
@@ -34,7 +34,7 @@
 
     <div
       v-if="isSongCard"
-      class="Card__Body"
+      class="SSCard__Body"
     >
       <h3>{{ item.name }}</h3>
       <p>
@@ -65,7 +65,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'Card',
+  name: 'SSCard',
   props: {
     isArtistCard: Boolean,
     isSongCard: Boolean,
@@ -113,7 +113,7 @@ export default {
 <style lang="scss" scoped>
   /* Portrait */
   @media only screen and (min-device-width: 375px){
-    .Card {
+    .SSCard {
         background-color: rgba(21, 158, 212, .2);
         border: 7.5px solid rgba(0, 0, 0, 0.75);
         border-radius: 10px;
