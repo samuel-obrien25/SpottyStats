@@ -25,8 +25,6 @@ let redirect_uri;
     baseURL = 'https://spottystats.herokuapp.com/';
     redirect_uri = 'https://spottystats.herokuapp.com/api/callback/';
   }
-
-  console.log(client_id, client_secret, baseURL);
 }());
 
 /**

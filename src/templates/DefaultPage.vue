@@ -3,7 +3,7 @@
     id="app"
     class="Template__Default"
   >
-    <AppHeader />
+    <SSHeader />
     <main>
       <div class="ContentWrapper">
         <router-view />
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import AppHeader from '../components/Header.vue';
+import SSHeader from '../components/SSHeader.vue';
 
 export default {
   name: 'DefaultPage',
   components: {
-    AppHeader,
+    SSHeader,
   },
   props: {
     isSplash: Boolean,

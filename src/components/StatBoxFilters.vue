@@ -92,27 +92,27 @@
       </label>
 
       <div class="StatBoxFilters__ActionsContainer">
-        <ActionButton
+        <SSButton
+          :handle-click="updateStack"
           type="Constructive"
-          @click.native="updateStack"
         >
           Update Stack
-        </ActionButton>
-        <ActionButton type="Destructive">
+        </SSButton>
+        <SSButton type="Destructive">
           Reset Options
-        </ActionButton>
+        </SSButton>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ActionButton from '../../Buttons/ActionButton.vue';
+import SSButton from './SSButton.vue';
 
 export default {
   name: 'StatBoxFilters',
   components: {
-    ActionButton,
+    SSButton,
   },
   data() {
     return {
