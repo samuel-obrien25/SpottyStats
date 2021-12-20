@@ -5,27 +5,28 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-const clientID = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
-const clientSecret = process.env.VUE_APP_CLIENT_SECRET
-  || process.env.CLIENT_SECRET;
+const client_id = process.env.VUE_APP_CLIENT_ID || process.env.CLIENT_ID;
+const client_secret = process.env.VUE_APP_CLIENT_SECRET || process.env.CLIENT_SECRET;
 let baseURL;
-let redirectURI;
+let redirect_uri;
 
 (function () {
-  if (process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'DEVELOPMENT') {
     baseURL = 'http://localhost:8080/';
-    redirectURI = 'http://localhost:8888/api/callback/';
+    redirect_uri = 'http://localhost:8888/api/callback/';
   }
 
   if (process.env.NODE_ENV === 'STAGING') {
     baseURL = 'https://spottystats-dev.herokuapp.com/';
-    redirectURI = 'https://spottystats-dev.herokuapp.com/api/callback/';
+    redirect_uri = 'https://spottystats-dev.herokuapp.com/api/callback/';
   }
 
   if (process.env.NODE_ENV === 'PRODUCTION') {
     baseURL = 'https://spottystats.herokuapp.com/';
-    redirectURI = 'https://spottystats.herokuapp.com/api/callback/';
+    redirect_uri = 'https://spottystats.herokuapp.com/api/callback/';
   }
+
+  console.log(client_id, client_secret, baseURL);
 }());
 
 /**
@@ -35,8 +36,7 @@ let redirectURI;
  */
 const generateRandomString = function (length) {
   let text = '';
-  const possible = `ABCDEFGHIJKLMNO
-  PQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`;
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -62,9 +62,9 @@ app.get('/api/login', (req, res) => {
   res.redirect(`https://accounts.spotify.com/authorize?${
     querystring.stringify({
       response_type: 'code',
-      clientID,
+      client_id,
       scope,
-      redirectURI,
+      redirect_uri,
       state,
     })}`);
 });
@@ -88,13 +88,11 @@ app.get('/api/callback', (req, res) => {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code,
-        redirectURI,
+        redirect_uri,
         grant_type: 'authorization_code',
       },
       headers: {
-        Authorization: `Basic ${
-          new Buffer.from(`${clientID}:${clientSecret}`).toString('base64')
-        }`,
+        Authorization: `Basic ${new Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`,
       },
       json: true,
     };
@@ -124,11 +122,7 @@ app.get('/api/refresh_token', (req, res) => {
   const { refresh_token } = req.query;
   const authOptions = {
     url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization: `Basic ${
-        new Buffer.from(`${clientID}:${clientSecret}`).toString('base64')
-      }`,
-    },
+    headers: { Authorization: `Basic ${new Buffer.from(`${client_id}:${client_secret}`).toString('base64')}` },
     form: {
       grant_type: 'refresh_token',
       refresh_token,

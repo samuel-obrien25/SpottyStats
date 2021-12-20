@@ -1,19 +1,23 @@
 <template>
   <div class="LogInOut__Wrapper">
-    <a
-      class="ActionButton ActionButton--Constructive"
+    <router-link
       v-if="inOut === 'in'"
-      href="/api/login"
+      to="/api/login"
     >
-      Log In
-    </a>
-    <a
-      class="ActionButton ActionButton--Destructive"
-      v-else
-      href="/api/logout"
-    >
-      Log Out
-    </a>
+      <span
+        class="ActionButton ActionButton--Constructive"
+      >
+        Log In
+      </span>
+    </router-link>
+    <router-link v-else>
+      <span
+        class="ActionButton ActionButton--Destructive"
+        href="/api/logout"
+      >
+        Log Out
+      </span>
+    </router-link>
   </div>
 </template>
 
