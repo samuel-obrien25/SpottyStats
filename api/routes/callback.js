@@ -5,7 +5,13 @@ const getBaseURL = require('../utils/getBaseURL');
 const getClientId = require('../utils/getClientId');
 const getClientSecret = require('../utils/getClientSecret');
 const getRedirectURI = require('../utils/getRedirectURI');
-const { STATE_KEY } = require('../Constants');
+const {
+  AUTHORIZATION_CODE,
+  INVALID_TOKEN,
+  STATE_KEY,
+  STATE_MISMATCH,
+  TOKEN_URL,
+} = require('../Constants');
 
 const callback = (req, res) => {
   // your application requests refresh and access tokens
@@ -21,16 +27,16 @@ const callback = (req, res) => {
   if (state === null || state !== storedState) {
     res.redirect(`/#${
       querystring.stringify({
-        error: 'state_mismatch',
+        error: STATE_MISMATCH,
       })}`);
   } else {
     res.clearCookie(STATE_KEY);
     const authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
+      url: TOKEN_URL,
       form: {
         code,
         redirect_uri,
-        grant_type: 'authorization_code',
+        grant_type: AUTHORIZATION_CODE,
       },
       headers: {
         Authorization: `Basic ${new Buffer.from(
@@ -45,8 +51,6 @@ const callback = (req, res) => {
         const { access_token } = body;
         const { refresh_token } = body;
 
-        console.log(baseURL);
-
         res.redirect(`${baseURL}?${
           querystring.stringify({
             access_token,
@@ -55,7 +59,7 @@ const callback = (req, res) => {
       } else {
         res.redirect(`/#${
           querystring.stringify({
-            error: 'invalid_token',
+            error: INVALID_TOKEN,
           })}`);
       }
     });

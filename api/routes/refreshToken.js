@@ -1,4 +1,5 @@
 const request = require('request');
+const { TOKEN_URL } = require('../Constants');
 const getClientId = require('../utils/getClientId');
 const getClientSecret = require('../utils/getClientSecret');
 
@@ -8,7 +9,7 @@ const refreshToken = (req, res) => {
   const client_id = getClientId();
   const client_secret = getClientSecret();
   const authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
+    url: TOKEN_URL,
     headers: {
       Authorization: `Basic ${new Buffer.from(
         `${client_id}:${client_secret}`,
