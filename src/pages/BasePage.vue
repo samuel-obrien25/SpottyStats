@@ -1,11 +1,11 @@
 <template>
   <div
     id="app"
-    class="Template__Default"
+    class="Page Page--base"
   >
     <SSHeader />
     <main>
-      <div class="ContentWrapper">
+      <div class="Container">
         <router-view />
       </div>
     </main>
@@ -16,7 +16,7 @@
 import SSHeader from '../components/SSHeader.vue';
 
 export default {
-  name: 'DefaultPage',
+  name: 'BasePage',
   components: {
     SSHeader,
   },
@@ -54,7 +54,7 @@ html, body{
     height: calc(100% - 50px);
     margin-top: 50px;
 
-    .ContentWrapper{
+    .Container{
       backdrop-filter: blur(5px);
       background-color: rgba(255,255,255,.8);
       border: 10px solid rgba(0,0,0,.8);
@@ -83,7 +83,7 @@ html, body{
     margin-top: 85px;
     height: auto;
 
-    .ContentWrapper{
+    .Container{
       border: 15px solid rgba(0,0,0,.75);
       box-sizing: content-box;
       margin: 50px auto;

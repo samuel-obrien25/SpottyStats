@@ -1,15 +1,15 @@
 <template>
-  <DefaultPage :is-splash="true" />
+  <BasePage :is-splash="true" />
 </template>
 
 <script>
 import 'vue-router';
-import DefaultPage from '../templates/DefaultPage.vue';
+import BasePage from './BasePage.vue';
 
 export default {
   name: 'App',
   components: {
-    DefaultPage,
+    BasePage,
   },
   computed: {
     user() {

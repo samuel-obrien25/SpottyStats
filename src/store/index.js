@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import App from '../views/Home.vue';
+import App from '../pages/Home.vue';
 
 Vue.use(Vuex);
 

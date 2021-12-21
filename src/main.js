@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import Home from './views/Home.vue';
+import Home from './pages/Home.vue';
 import store from './store';
 import router from './router';
 
